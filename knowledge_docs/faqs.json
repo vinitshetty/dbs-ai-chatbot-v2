@@ -5,44 +5,128 @@
       "answer": "Most DBS branches operate Monday to Friday from 9:30 AM to 4:30 PM, and Saturday from 9:30 AM to 12:30 PM. Closed on Sundays and public holidays."
     },
     {
+      "question": "Are DBS branches open on public holidays?",
+      "answer": "No, DBS branches are closed on Singapore public holidays. Digital banking services remain available 24/7."
+    },
+    {
+      "question": "How do I find the nearest DBS branch or ATM?",
+      "answer": "You can find nearby DBS branches and ATMs using the DBS digibank app or by asking me to locate one based on your area."
+    },
+
+    {
       "question": "What are the credit card annual fees?",
       "answer": "DBS Altitude Card: $196.20/year, DBS Woman's World Card: $192.60/year, DBS Yuu Card: $0 (waived permanently)."
     },
+    {
+      "question": "Are annual fees waived for the first year?",
+      "answer": "Most DBS credit cards offer a first-year annual fee waiver, subject to card type and ongoing promotions."
+    },
+    {
+      "question": "How can I request a credit card fee waiver?",
+      "answer": "You can request an annual fee waiver through DBS digibank, live chat, or by calling customer support."
+    },
+
     {
       "question": "How do I lock my credit card?",
       "answer": "You can lock your credit card instantly through our chat by saying 'lock my card', via the DBS mobile app, or by calling our hotline at 1800-111-1111."
     },
     {
-      "question": "What is the minimum balance for savings account?",
-      "answer": "DBS Multiplier Account requires a minimum of $1,000 to avoid fall-below fees. Basic savings accounts have no minimum balance requirement."
+      "question": "What should I do if my card is lost or stolen?",
+      "answer": "Immediately lock your card via digibank or chat. You may then request a replacement card to be delivered to your registered address."
     },
     {
+      "question": "Will locking my card cancel recurring payments?",
+      "answer": "No, locking your card blocks new transactions but does not cancel existing recurring or subscription payments."
+    },
+
+    {
+      "question": "What is the minimum balance for savings accounts?",
+      "answer": "DBS Multiplier Account requires a minimum of $1,000 to avoid fall-below fees. Some basic savings accounts have no minimum balance requirement."
+    },
+    {
+      "question": "What happens if my balance falls below the minimum?",
+      "answer": "A fall-below fee may be charged depending on your account type. Refer to your specific account terms for details."
+    },
+
+    {
       "question": "How can I transfer money to another bank?",
-      "answer": "Use PayNow for instant transfers, FAST for same-day transfers, or GIRO for scheduled transfers through DBS digibank or our agent."
+      "answer": "Use PayNow for instant transfers, FAST for same-day transfers, or GIRO for scheduled transfers via DBS digibank or chat."
+    },
+    {
+      "question": "Is PayNow available 24/7?",
+      "answer": "Yes, PayNow transfers are available 24/7, including weekends and public holidays."
+    },
+    {
+      "question": "Are there fees for bank transfers?",
+      "answer": "PayNow and FAST transfers are generally free for retail customers. GIRO transfers may have applicable fees depending on setup."
+    },
+
+    {
+      "question": "How do I reset my digibank password?",
+      "answer": "You can reset your password through the DBS digibank app or website using your registered mobile number and OTP."
+    },
+    {
+      "question": "What should I do if I suspect fraudulent activity?",
+      "answer": "Lock the affected card or account immediately and contact DBS customer support for further assistance."
+    },
+
+    {
+      "question": "How can I update my contact details?",
+      "answer": "You can update your mobile number, email, or address via DBS digibank under Profile Settings."
+    },
+    {
+      "question": "How long does it take to update personal details?",
+      "answer": "Most contact detail updates take effect immediately, while address changes may take up to one business day."
     }
   ],
+
   "policies": [
     {
       "topic": "Card Security",
-      "content": "Customers can lock/unlock cards instantly. Locking prevents all transactions but does not cancel recurring payments. Card remains active for unlocking."
+      "content": "Customers can lock or unlock cards instantly. Locking prevents new transactions but does not cancel existing recurring payments."
     },
     {
       "topic": "Transaction Limits",
-      "content": "Daily transfer limit: $50,000 for online banking, $200,000 for in-branch. Bill payment limit: $9,999 per transaction."
+      "content": "Daily transfer limit: $50,000 for online banking and chat-based actions, $200,000 for in-branch transactions. Bill payment limit: $9,999 per transaction."
+    },
+    {
+      "topic": "Authentication",
+      "content": "Sensitive actions require user authentication via OTP, biometric verification, or digibank login confirmation."
+    },
+    {
+      "topic": "Fraud Monitoring",
+      "content": "DBS continuously monitors transactions for suspicious activity and may temporarily restrict accounts for customer protection."
+    },
+    {
+      "topic": "Data Privacy",
+      "content": "Customer data is protected under Singapore’s PDPA and DBS internal security policies. Chat interactions are logged for audit and quality purposes."
     }
   ],
+
   "actions": [
     {
       "name": "lock_card",
-      "description": "Lock a credit or debit card to prevent unauthorized transactions. Requires card last 4 digits for verification."
+      "description": "Lock a credit or debit card to prevent unauthorized transactions. Requires card type and last 4 digits for verification."
+    },
+    {
+      "name": "unlock_card",
+      "description": "Unlock a previously locked card after successful authentication."
     },
     {
       "name": "check_balance",
-      "description": "Check current account balance for savings, checking, or credit card accounts."
+      "description": "Retrieve current account balance for savings, checking, or credit card accounts."
     },
     {
       "name": "transfer_funds",
-      "description": "Transfer money between own accounts or to external accounts via PayNow or bank transfer."
+      "description": "Transfer money between own accounts or to external accounts using PayNow, FAST, or GIRO."
+    },
+    {
+      "name": "report_fraud",
+      "description": "Flag a transaction or account for suspected fraud and initiate a support case."
+    },
+    {
+      "name": "update_contact_details",
+      "description": "Update customer email, mobile number, or address after identity verification."
     }
   ]
 }

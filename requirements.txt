@@ -1,8 +1,8 @@
-﻿chainlit==1.0.0
-langchain==0.1.0
-langchain-mistralai==0.0.5
-chromadb==0.4.22
-crewai==0.1.0
-python-dotenv==1.0.0
-langwatch==0.1.21
-mistralai==1.0.0
+﻿chainlit
+langchain
+langchain-mistralai
+chromadb
+crewai
+python-dotenv
+langwatch
+mistralai
