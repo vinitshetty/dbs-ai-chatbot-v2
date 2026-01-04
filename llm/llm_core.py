@@ -2,8 +2,11 @@
 """LLM orchestration using Mistral AI"""
 import os
 from langchain_mistralai import ChatMistralAI
-from langchain.prompts import ChatPromptTemplate
-from langchain.schema import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage, SystemMessage
+
+from dotenv import load_dotenv
+load_dotenv()
+
 
 class LLMCore:
     """Core LLM functionality using Mistral AI"""

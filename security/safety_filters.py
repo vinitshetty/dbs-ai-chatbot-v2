@@ -113,7 +113,7 @@ class SafetyFilter:
         
         try:
             # Call Mistral's moderation endpoint
-            response = client.classifiers.moderate_chat(
+            response = client.classifiers.moderate(
                 model="mistral-moderation-latest",
                 inputs=[text]
             )
@@ -121,38 +121,53 @@ class SafetyFilter:
             # Check if any category is flagged
             if response.results:
                 result = response.results[0]
+
+
+                # categories is a dict
                 categories = result.categories
-                
-                # List of flagged categories
+
                 flagged = []
-                if categories.sexual: flagged.append("sexual")
-                if categories.hate_and_discrimination: flagged.append("hate_and_discrimination")
-                if categories.violence_and_threats: flagged.append("violence_and_threats")
-                if categories.dangerous_and_criminal_content: flagged.append("dangerous_and_criminal_content")
-                if categories.selfharm: flagged.append("selfharm")
-                if categories.health: flagged.append("health")
-                if categories.financial: flagged.append("financial")
-                if categories.law: flagged.append("law")
-                if categories.pii: flagged.append("pii")
-                
+
+                if categories.get("sexual"):
+                    flagged.append("sexual")
+                if categories.get("hate_and_discrimination"):
+                    flagged.append("hate_and_discrimination")
+                if categories.get("violence_and_threats"):
+                    flagged.append("violence_and_threats")
+                if categories.get("dangerous_and_criminal_content"):
+                    flagged.append("dangerous_and_criminal_content")
+                if categories.get("selfharm"):
+                    flagged.append("selfharm")
+                if categories.get("health"):
+                    flagged.append("health")
+                if categories.get("financial"):
+                    flagged.append("financial")
+                if categories.get("law"):
+                    flagged.append("law")
+                if categories.get("pii"):
+                    flagged.append("pii")
+
                 if flagged:
+                    # category_scores may be an object or dict depending on SDK version
+                    scores = getattr(result, "category_scores", {}) or {}
+
                     return {
                         "safe": False,
                         "reason": "Content policy violation detected",
                         "categories": flagged,
                         "category_scores": {
-                            "sexual": categories.sexual,
-                            "hate": categories.hate_and_discrimination,
-                            "violence": categories.violence_and_threats,
-                            "dangerous": categories.dangerous_and_criminal_content,
-                            "selfharm": categories.selfharm,
-                            "health": categories.health,
-                            "financial": categories.financial,
-                            "law": categories.law,
-                            "pii": categories.pii
+                            "sexual": scores.get("sexual"),
+                            "hate_and_discrimination": scores.get("hate_and_discrimination"),
+                            "violence_and_threats": scores.get("violence_and_threats"),
+                            "dangerous_and_criminal_content": scores.get("dangerous_and_criminal_content"),
+                            "selfharm": scores.get("selfharm"),
+                            "health": scores.get("health"),
+                            "financial": scores.get("financial"),
+                            "law": scores.get("law"),
+                            "pii": scores.get("pii"),
                         }
                     }
-            
+
             return {"safe": True, "categories": []}
             
         except Exception as e:

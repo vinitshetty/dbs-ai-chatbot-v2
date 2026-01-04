@@ -1,17 +1,20 @@
-# Chainlit UI - Chat interface
 """Chainlit UI for DBS Banking Agent"""
+import warnings
+warnings.filterwarnings("ignore", message="No trace in context")
+
 import chainlit as cl
 import os
 import sys
+import langwatch
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from llm.llm_core import LLMCore
 from rag.rag_engine import RAGEngine
-from dbs_banking_agent.core_banking.banking_actions import BankingActions
-from dbs_banking_agent.ui.intent_router import IntentRouter
-from dbs_banking_agent.security.safety_filters import SafetyFilter
+from core_banking.banking_actions import BankingActions
+from intent_router import IntentRouter
+from security.safety_filters import SafetyFilter
 from audit.logger import AuditLogger
 from audit.langwatch_tracker import LangWatchTracker
 import time
@@ -50,6 +53,7 @@ async def start():
     ).send()
 
 @cl.on_message
+@langwatch.trace()
 async def main(message: cl.Message):
     """Handle user messages"""
     query = message.content
@@ -112,7 +116,7 @@ async def main(message: cl.Message):
         langwatch_tracker.track_safety_check(
             "content_moderation",
             moderation["safe"],
-            response,
+            str(response),
             moderation.get("reason")
         )
         

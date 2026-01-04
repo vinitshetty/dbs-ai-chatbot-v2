@@ -1,60 +1,80 @@
 # RAG Engine - ChromaDB vector store
 """RAG engine using ChromaDB"""
 import json
+import os
 import chromadb
 from chromadb.config import Settings
+from chromadb.api.types import EmbeddingFunction, Documents, Embeddings
+from langchain_mistralai.embeddings import MistralAIEmbeddings
 from pathlib import Path
+
+class MistralLangChainEmbeddingFunction(EmbeddingFunction):
+    def __init__(self):
+        self._mistral_embedder = MistralAIEmbeddings(mistral_api_key=os.environ.get("MISTRAL_API_KEY"))
+
+    def __call__(self, texts: Documents) -> Embeddings:
+        return self._mistral_embedder.embed_documents(texts)
 
 class RAGEngine:
     """Retrieval Augmented Generation engine"""
     
-    def __init__(self, knowledge_path="knowledge_docs/faqs.json", 
+    def __init__(self, knowledge_path="knowledge_docs/faqs.json",
                  persist_dir="chroma_db"):
         self.client = chromadb.Client(Settings(
             persist_directory=persist_dir,
             anonymized_telemetry=False
         ))
-        
-        # Get or create collection
+
+        embedding_function = MistralLangChainEmbeddingFunction()
+
+        # Delete the collection if it exists to ensure the new embedding function is used
         try:
-            self.collection = self.client.get_collection("dbs_banking")
-        except:
-            self.collection = self.client.create_collection(
-                name="dbs_banking",
-                metadata={"description": "DBS Banking knowledge base"}
-            )
+            self.client.delete_collection(name="dbs_banking")
+        except Exception:
+            pass  # Collection doesn't exist, so no need to delete
+
+        self.collection = self.client.create_collection(
+            name="dbs_banking",
+            embedding_function=embedding_function,
+            metadata={"description": "DBS Banking knowledge base"}
+        )
+
+        if self.collection.count() == 0:
             self._load_knowledge(knowledge_path)
-    
+
     def _load_knowledge(self, knowledge_path: str):
         """Load FAQs and policies into ChromaDB"""
         with open(knowledge_path, 'r') as f:
             data = json.load(f)
-        
+
         documents = []
         metadatas = []
         ids = []
-        
+
         # Add FAQs
         for i, faq in enumerate(data.get("faqs", [])):
             doc = f"Q: {faq['question']}\nA: {faq['answer']}"
             documents.append(doc)
-            metadatas.append({"type": "faq", "question": faq["question"]})
+            # Serialize metadata to a JSON string
+            metadatas.append({"metadata": json.dumps({"type": "faq", "question": faq["question"]})})
             ids.append(f"faq_{i}")
-        
+
         # Add policies
         for i, policy in enumerate(data.get("policies", [])):
             doc = f"Policy - {policy['topic']}: {policy['content']}"
             documents.append(doc)
-            metadatas.append({"type": "policy", "topic": policy["topic"]})
+            # Serialize metadata to a JSON string
+            metadatas.append({"metadata": json.dumps({"type": "policy", "topic": policy["topic"]})})
             ids.append(f"policy_{i}")
-        
+
         # Add action descriptions
         for i, action in enumerate(data.get("actions", [])):
             doc = f"Action: {action['name']}\n{action['description']}"
             documents.append(doc)
-            metadatas.append({"type": "action", "name": action["name"]})
+            # Serialize metadata to a JSON string
+            metadatas.append({"metadata": json.dumps({"type": "action", "name": action["name"]})})
             ids.append(f"action_{i}")
-        
+
         # Add to collection
         if documents:
             self.collection.add(
@@ -76,7 +96,7 @@ class RAGEngine:
                                     results['metadatas'][0]):
                 retrieved.append({
                     "content": doc,
-                    "metadata": metadata
+                    "metadata": json.loads(metadata["metadata"]) if metadata and "metadata" in metadata else {}
                 })
         
         return retrieved

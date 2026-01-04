@@ -46,6 +46,3 @@ dbs_banking_agent/
 - Multi-turn conversations
 - LangWatch observability
 
-## Documentation
-- See SAFETY_FILTERS_EXPLAINED.md for security details
-- See LANGWATCH_TRACKING.md for observability examples
