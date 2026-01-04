@@ -1,0 +1,48 @@
+{
+  "faqs": [
+    {
+      "question": "What are DBS branch operating hours?",
+      "answer": "Most DBS branches operate Monday to Friday from 9:30 AM to 4:30 PM, and Saturday from 9:30 AM to 12:30 PM. Closed on Sundays and public holidays."
+    },
+    {
+      "question": "What are the credit card annual fees?",
+      "answer": "DBS Altitude Card: $196.20/year, DBS Woman's World Card: $192.60/year, DBS Yuu Card: $0 (waived permanently)."
+    },
+    {
+      "question": "How do I lock my credit card?",
+      "answer": "You can lock your credit card instantly through our chat by saying 'lock my card', via the DBS mobile app, or by calling our hotline at 1800-111-1111."
+    },
+    {
+      "question": "What is the minimum balance for savings account?",
+      "answer": "DBS Multiplier Account requires a minimum of $1,000 to avoid fall-below fees. Basic savings accounts have no minimum balance requirement."
+    },
+    {
+      "question": "How can I transfer money to another bank?",
+      "answer": "Use PayNow for instant transfers, FAST for same-day transfers, or GIRO for scheduled transfers through DBS digibank or our agent."
+    }
+  ],
+  "policies": [
+    {
+      "topic": "Card Security",
+      "content": "Customers can lock/unlock cards instantly. Locking prevents all transactions but does not cancel recurring payments. Card remains active for unlocking."
+    },
+    {
+      "topic": "Transaction Limits",
+      "content": "Daily transfer limit: $50,000 for online banking, $200,000 for in-branch. Bill payment limit: $9,999 per transaction."
+    }
+  ],
+  "actions": [
+    {
+      "name": "lock_card",
+      "description": "Lock a credit or debit card to prevent unauthorized transactions. Requires card last 4 digits for verification."
+    },
+    {
+      "name": "check_balance",
+      "description": "Check current account balance for savings, checking, or credit card accounts."
+    },
+    {
+      "name": "transfer_funds",
+      "description": "Transfer money between own accounts or to external accounts via PayNow or bank transfer."
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+﻿# DBS Retail Banking RAG + Action Agent
+
+A conversational AI prototype for DBS Bank using RAG + Actions.
+
+## Quick Start
+
+### 1. Install Dependencies
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+### 2. Configure Environment
+Edit .env file with your API keys:
+```
+MISTRAL_API_KEY=your_key_here
+LANGWATCH_API_KEY=your_key_here
+```
+
+### 3. Run Application
+```powershell
+cd ui
+chainlit run chainlit_app.py -w
+```
+
+Visit http://localhost:8000
+
+## Project Structure
+```
+dbs_banking_agent/
+â”œâ”€â”€ knowledge_docs/     # FAQs and policies
+â”œâ”€â”€ llm/               # Mistral AI integration
+â”œâ”€â”€ rag/               # ChromaDB vector store
+â”œâ”€â”€ ui/                # Chainlit interface
+â”œâ”€â”€ audit/             # Logging and tracking
+â”œâ”€â”€ logs/              # Auto-generated logs
+â””â”€â”€ *.py               # Core modules
+```
+
+## Features
+- FAQ answering with RAG
+- Account actions (lock card, check balance)
+- Prompt injection prevention
+- Content moderation (Mistral AI)
+- Multi-turn conversations
+- LangWatch observability
+
+## Documentation
+- See SAFETY_FILTERS_EXPLAINED.md for security details
+- See LANGWATCH_TRACKING.md for observability examples
