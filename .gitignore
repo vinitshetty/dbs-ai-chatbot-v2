@@ -34,4 +34,5 @@ Thumbs.db
 
 # Chainlit
 .chainlit/
+!.chainlit/config.toml
 .files/

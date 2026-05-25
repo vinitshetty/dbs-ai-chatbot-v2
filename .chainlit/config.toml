@@ -1,0 +1,20 @@
+[UI]
+name = "DBS Banking Assistant"
+
+[UI.theme.light]
+background = "#FAFAFA"
+paper = "#FFFFFF"
+
+[UI.theme.light.primary]
+main = "#1976D2"
+dark = "#0D47A1"
+light = "#E3F2FD"
+
+[UI.theme.dark]
+background = "#121212"
+paper = "#1E1E1E"
+
+[UI.theme.dark.primary]
+main = "#2196F3"
+dark = "#0D47A1"
+light = "#90CAF9"
