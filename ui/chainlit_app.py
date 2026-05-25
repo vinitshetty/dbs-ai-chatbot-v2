@@ -10,10 +10,10 @@ import langwatch
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# Set blue color theme
+# Set sky blue color theme
 cl.set_theme(
-    primary="#1E90FF",
-    secondary="#4682B4",
+    primary="#87CEEB",
+    secondary="#00BFFF",
     background="#FFFFFF",
     surface="#F8F9FA",
     text="#262730",
