@@ -10,6 +10,16 @@ import langwatch
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+# Set blue color theme
+cl.set_theme(
+    primary="#1E90FF",
+    secondary="#4682B4",
+    background="#FFFFFF",
+    surface="#F8F9FA",
+    text="#262730",
+    input="#FFFFFF",
+)
+
 from llm.llm_core import LLMCore
 from rag.rag_engine import RAGEngine
 from core_banking.banking_actions import BankingActions
