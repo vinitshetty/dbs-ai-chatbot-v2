@@ -7,6 +7,15 @@ import os
 import sys
 import langwatch
 
+# UI Theme Configuration - Changed from red to blue
+THEME = cl.Theme(
+    primary=cl.colors.Blue,
+    secondary=cl.colors.Blue200,
+)
+
+# Set the theme
+cl.set_theme(THEME)
+
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
