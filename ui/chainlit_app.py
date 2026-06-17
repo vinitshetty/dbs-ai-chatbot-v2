@@ -19,6 +19,55 @@ from audit.logger import AuditLogger
 from audit.langwatch_tracker import LangWatchTracker
 import time
 
+# Set blue color theme
+cl.set_theme({
+    "name": "DBS Banking Assistant",
+    "description": "A banking assistant with blue theme",
+    "theme": {
+        "primary": {
+            "background": "#1e3a8a",  # Dark blue
+            "text": "#ffffff"
+        },
+        "secondary": {
+            "background": "#3b82f6",  # Blue
+            "text": "#ffffff"
+        },
+        "accent": {
+            "background": "#60a5fa",  # Light blue
+            "text": "#ffffff"
+        },
+        "neutral": {
+            "background": "#f8fafc",
+            "text": "#0f172a"
+        },
+        "success": {
+            "background": "#22c55e",
+            "text": "#ffffff"
+        },
+        "warning": {
+            "background": "#f59e0b",
+            "text": "#ffffff"
+        },
+        "error": {
+            "background": "#ef4444",
+            "text": "#ffffff"
+        },
+        "borderRadius": {
+            "small": "4px",
+            "medium": "8px",
+            "large": "12px"
+        },
+        "font": {
+            "family": "Inter",
+            "sizes": {
+                "small": "14px",
+                "medium": "16px",
+                "large": "18px"
+            }
+        }
+    }
+})
+
 # Initialize components
 llm_core = None
 rag_engine = None
