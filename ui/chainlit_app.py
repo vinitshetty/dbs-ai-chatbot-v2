@@ -7,6 +7,18 @@ import os
 import sys
 import langwatch
 
+# Set Chainlit theme to blue (#1976D2)
+cl.Theme(
+    primary="#1976D2",
+    primary_dark="#1565C0",
+    primary_light="#1E88E5",
+    secondary="#1976D2",
+    text="#FFFFFF",
+    text_secondary="#000000",
+    background="#FFFFFF",
+    background_secondary="#F5F5F5",
+)
+
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

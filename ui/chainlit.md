@@ -1,14 +1,16 @@
-# Welcome to Chainlit! 🚀🤖
+---
+primary_color: '#1976D2'
+---
 
-Hi there, Developer! 👋 We're excited to have you on board. Chainlit is a powerful tool designed to help you prototype, debug and share applications built on top of LLMs.
+# Welcome to DBS Banking Assistant 🚀
 
-## Useful Links 🔗
+Hi there! Welcome to the DBS Banking Assistant. I'm here to help you with your banking needs.
 
-- **Documentation:** Get started with our comprehensive [Chainlit Documentation](https://docs.chainlit.io) 📚
-- **Discord Community:** Join our friendly [Chainlit Discord](https://discord.gg/k73SQ3FyUh) to ask questions, share your projects, and connect with other developers! 💬
+## Features 🔗
 
-We can't wait to see what you create with Chainlit! Happy coding! 💻😊
+- **Branch Information:** Get details about branch hours, fees, and locations
+- **Account Management:** Check your balance and account details
+- **Card Services:** Lock/unlock your cards easily
+- **Fund Transfers:** Transfer funds between accounts
 
-## Welcome screen
-
-To modify the welcome screen, edit the `chainlit.md` file at the root of your project. If you do not want a welcome screen, just leave this file empty.
+We're here to make your banking experience seamless! 💙
