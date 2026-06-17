@@ -1,5 +1,5 @@
 ---
-primary_color: '#1976D2'
+primary_color: '#64B5F6'
 ---
 
 # Welcome to DBS Banking Assistant 🚀
