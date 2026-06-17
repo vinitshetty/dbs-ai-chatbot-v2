@@ -7,12 +7,12 @@ import os
 import sys
 import langwatch
 
-# Set Chainlit theme to blue (#1976D2)
+# Set Chainlit theme to lighter blue
 cl.Theme(
-    primary="#1976D2",
-    primary_dark="#1565C0",
-    primary_light="#1E88E5",
-    secondary="#1976D2",
+    primary="#42A5F5",
+    primary_dark="#1976D2",
+    primary_light="#90CAF9",
+    secondary="#42A5F5",
     text="#FFFFFF",
     text_secondary="#000000",
     background="#FFFFFF",
