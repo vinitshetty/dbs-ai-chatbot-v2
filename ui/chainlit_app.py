@@ -10,6 +10,7 @@ import langwatch
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from langchain_core.messages import HumanMessage, AIMessage
 from llm.llm_core import LLMCore
 from rag.rag_engine import RAGEngine
 from core_banking.banking_actions import BankingActions
@@ -18,6 +19,64 @@ from security.safety_filters import SafetyFilter
 from audit.logger import AuditLogger
 from audit.langwatch_tracker import LangWatchTracker
 import time
+
+
+def _serialize_message_history(history):
+    """Convert BaseMessage objects to serializable dicts for Chainlit session storage.
+    
+    Chainlit sessions serialize data, and BaseMessage dataclasses may not serialize
+    properly. This function converts them to plain dicts for storage.
+    
+    Args:
+        history: List of BaseMessage objects or dicts
+        
+    Returns:
+        List of dicts with 'role' and 'content' keys
+    """
+    serialized = []
+    for msg in history:
+        if isinstance(msg, HumanMessage):
+            serialized.append({"role": "user", "content": msg.content})
+        elif isinstance(msg, AIMessage):
+            serialized.append({"role": "assistant", "content": msg.content})
+        elif isinstance(msg, dict):
+            # Already serialized
+            serialized.append(msg)
+        else:
+            # Handle other BaseMessage types (SystemMessage, etc.)
+            # Store with role based on type name
+            role = "unknown"
+            if hasattr(msg, 'content'):
+                serialized.append({"role": role, "content": msg.content})
+    return serialized
+
+
+def _deserialize_message_history(history):
+    """Convert serialized dicts back to BaseMessage objects.
+    
+    Args:
+        history: List of dicts with 'role' and 'content' keys, or already BaseMessage objects
+        
+    Returns:
+        List of BaseMessage objects
+    """
+    from langchain_core.messages import HumanMessage, AIMessage
+    deserialized = []
+    for msg in history:
+        if isinstance(msg, dict):
+            role = msg.get("role", "").lower()
+            content = msg.get("content", "")
+            if role == "user":
+                deserialized.append(HumanMessage(content=content))
+            elif role == "assistant":
+                deserialized.append(AIMessage(content=content))
+            else:
+                # Keep as dict for now - will be handled by llm_core normalization
+                deserialized.append(msg)
+        else:
+            # Already a BaseMessage object
+            deserialized.append(msg)
+    return deserialized
 
 # Initialize components
 llm_core = None
@@ -59,7 +118,7 @@ async def main(message: cl.Message):
     query = message.content
     user_id = cl.user_session.get("user_id")
     session_id = cl.user_session.get("id")
-    history = cl.user_session.get("conversation_history")
+    history = _deserialize_message_history(cl.user_session.get("conversation_history", []))
     
     # Start LangWatch trace
     langwatch_tracker.start_trace(
@@ -160,10 +219,11 @@ async def main(message: cl.Message):
     finally:
         langwatch_tracker.end_trace()
     
-    # Update conversation history
-    history.append({"role": "user", "content": query})
-    history.append({"role": "assistant", "content": response})
-    cl.user_session.set("conversation_history", history[-6:])  # Keep last 3 turns
+    # Update conversation history with BaseMessage objects
+    history.append(HumanMessage(content=query))
+    history.append(AIMessage(content=response))
+    # Serialize to dicts for Chainlit session storage
+    cl.user_session.set("conversation_history", _serialize_message_history(history[-6:]))  # Keep last 3 turns
     
     await cl.Message(content=response).send()
 
