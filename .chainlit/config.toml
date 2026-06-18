@@ -1,0 +1,38 @@
+[theme]
+# Primary blue color scheme
+primary = "#1E40AF"        # Deep blue primary color
+primary_50 = "#EFF6FF"      # Lightest blue (backgrounds)
+primary_100 = "#DBEAFE"     # Light blue (hover states)
+primary_200 = "#BFDBFE"     # Medium-light blue
+primary_300 = "#93C5FD"     # Medium blue
+primary_400 = "#60A5FA"     # Medium-dark blue
+primary_500 = "#3B82F6"     # Standard blue
+primary_600 = "#2563EB"     # Dark blue
+primary_700 = "#1D4ED8"     # Darker blue
+primary_800 = "#1E40AF"     # Deep blue
+primary_900 = "#1E3A8A"     # Deepest blue
+
+# Background colors
+background = "#FFFFFF"       # White background
+background_secondary = "#F8FAFC"  # Light gray-blue background
+
+# Text colors
+text = "#1E293B"           # Dark slate (primary text)
+text_secondary = "#64748B"  # Medium slate (secondary text)
+
+# Status colors - Change red to blue
+success = "#3B82F6"         # Blue for success states (was typically green)
+error = "#1E40AF"           # Deep blue for error states (replaces red)
+warning = "#F59E0B"         # Amber for warnings (unchanged)
+
+# Border colors
+border = "#E2E8F0"          # Light border color
+
+# Button colors
+button_background = "#3B82F6"  # Blue button background
+button_text = "#FFFFFF"      # White text on blue buttons
+button_hover = "#2563EB"     # Darker blue on hover
+
+# Message bubbles
+user_bubble = "#DBEAFE"      # Light blue for user messages
+assistant_bubble = "#EFF6FF" # Lighter blue for assistant messages

@@ -10,6 +10,29 @@ import langwatch
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+# Set blue theme programmatically as fallback
+cl.set_theme(
+    primary="#1E40AF",
+    primary_50="#EFF6FF",
+    primary_100="#DBEAFE",
+    primary_200="#BFDBFE",
+    primary_300="#93C5FD",
+    primary_400="#60A5FA",
+    primary_500="#3B82F6",
+    primary_600="#2563EB",
+    primary_700="#1D4ED8",
+    primary_800="#1E40AF",
+    primary_900="#1E3A8A",
+    background="#FFFFFF",
+    background_secondary="#F8FAFC",
+    text="#1E293B",
+    text_secondary="#64748B",
+    success="#3B82F6",
+    error="#1E40AF",
+    warning="#F59E0B",
+    border="#E2E8F0",
+)
+
 from llm.llm_core import LLMCore
 from rag.rag_engine import RAGEngine
 from core_banking.banking_actions import BankingActions
@@ -264,7 +287,7 @@ async def handle_action(query: str, intent: str, user_id: str) -> str:
                    f"**${result['balance']:.2f}**\n"
                    f"Account: {result['account_number']}")
         else:
-            return f"❌ {result['error']}"
+            return f"🔵 {result['error']}"
     
     elif action_name in ["lock_card", "unlock_card"]:
         # Get authentication if needed
@@ -274,7 +297,7 @@ async def handle_action(query: str, intent: str, user_id: str) -> str:
             langwatch_tracker.add_custom_metric("auth_completed", is_auth)
             
             if not is_auth:
-                return "❌ Authentication required to proceed with this action."
+                return "🔵 Authentication required to proceed with this action."
         
         # Extract card number
         params = llm_core.extract_action_params(query, "lock_card")
@@ -300,9 +323,9 @@ async def handle_action(query: str, intent: str, user_id: str) -> str:
         )
         
         if result["success"]:
-            return f"✅ {result['message']}"
+            return f"🔵 {result['message']}"
         else:
-            return f"❌ {result.get('error') or result.get('message')}"
+            return f"🔵 {result.get('error') or result.get('message')}"
     
     return f"Action '{action_name}' is not yet implemented in this prototype."
 
@@ -311,8 +334,8 @@ async def request_dummy_auth() -> bool:
     res = await cl.AskActionMessage(
         content="🔐 This action requires authentication. Proceed?",
         actions=[
-            cl.Action(name="yes", value="yes", label="✅ Authenticate"),
-            cl.Action(name="no", value="no", label="❌ Cancel"),
+            cl.Action(name="yes", value="yes", label="🔵 Authenticate"),
+            cl.Action(name="no", value="no", label="⚪ Cancel"),
         ],
     ).send()
     
