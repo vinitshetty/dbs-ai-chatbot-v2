@@ -1,0 +1,251 @@
+/* DBS Banking Agent - Blue Theme Override */
+
+/* Root CSS variables for theme */
+:root {
+    /* Primary blue color - DBS brand blue */
+    --primary-color: #003366;
+    --primary-hover: #002244;
+    --primary-light: #4682b4;
+    
+    /* Secondary colors */
+    --secondary-color: #1a1a3a;
+    --secondary-hover: #0f0f23;
+    
+    /* Accent colors */
+    --accent-color: #0066cc;
+    --accent-hover: #004499;
+    
+    /* Error colors - keep red for errors but use DBS blue-ish red */
+    --error-color: #d32f2f;
+    --error-background: #ffebee;
+    
+    /* Success colors */
+    --success-color: #1976d2;
+    --success-background: #e3f2fd;
+    
+    /* Text colors */
+    --text-primary: #1a1a3a;
+    --text-secondary: #666666;
+    --text-on-primary: #ffffff;
+    
+    /* Background colors */
+    --background-primary: #f8f9fa;
+    --background-secondary: #ffffff;
+    --background-tertiary: #e8eaf6;
+    
+    /* Border colors */
+    --border-color: #e0e0e0;
+    --border-light: #b0bec5;
+}
+
+/* Override Chainlit default red buttons */
+.cl-button {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--text-on-primary) !important;
+}
+
+.cl-button:hover {
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
+}
+
+.cl-button:focus {
+    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.3) !important;
+}
+
+/* Primary action buttons */
+.cl-button.primary {
+    background-color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+}
+
+.cl-button.primary:hover {
+    background-color: var(--accent-hover) !important;
+    border-color: var(--accent-hover) !important;
+}
+
+/* Message send button */
+.cl-send-button {
+    background-color: var(--accent-color) !important;
+    color: var(--text-on-primary) !important;
+}
+
+.cl-send-button:hover {
+    background-color: var(--accent-hover) !important;
+}
+
+/* Input field focus border */
+.cl-input {
+    border-color: var(--border-color) !important;
+}
+
+.cl-input:focus {
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2) !important;
+}
+
+/* Sidebar and header colors */
+.cl-sidebar {
+    background-color: var(--secondary-color) !important;
+}
+
+.cl-header {
+    background-color: var(--secondary-color) !important;
+    border-bottom: 1px solid var(--border-light) !important;
+}
+
+/* Message bubbles - user messages */
+.cl-message-user {
+    background-color: var(--primary-color) !important;
+    color: var(--text-on-primary) !important;
+}
+
+/* Message bubbles - assistant messages */
+.cl-message-assistant {
+    background-color: var(--background-tertiary) !important;
+    border-left: 3px solid var(--accent-color) !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar-thumb {
+    background-color: var(--border-light) !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--border-color) !important;
+}
+
+/* Loading spinner */
+.cl-spinner {
+    border-top-color: var(--accent-color) !important;
+}
+
+/* Checkbox and radio buttons */
+.cl-checkbox,
+.cl-radio {
+    border-color: var(--border-color) !important;
+}
+
+.cl-checkbox:checked,
+.cl-radio:checked {
+    background-color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+}
+
+/* Action buttons in messages */
+.cl-action-button {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--text-on-primary) !important;
+}
+
+.cl-action-button:hover {
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
+}
+
+/* Error message styling */
+.cl-error {
+    background-color: var(--error-background) !important;
+    color: var(--error-color) !important;
+    border-color: var(--error-color) !important;
+}
+
+/* Success message styling */
+.cl-success {
+    background-color: var(--success-background) !important;
+    color: var(--success-color) !important;
+    border-color: var(--success-color) !important;
+}
+
+/* Link colors */
+a.cl-link {
+    color: var(--accent-color) !important;
+}
+
+a.cl-link:hover {
+    color: var(--accent-hover) !important;
+}
+
+/* Card/container elements */
+.cl-card {
+    border-color: var(--border-color) !important;
+    background-color: var(--background-secondary) !important;
+}
+
+/* Tooltip styling */
+.cl-tooltip {
+    background-color: var(--secondary-color) !important;
+    color: var(--text-on-primary) !important;
+}
+
+/* Progress bar */
+.cl-progress-bar {
+    background-color: var(--border-light) !important;
+}
+
+.cl-progress-bar-fill {
+    background-color: var(--accent-color) !important;
+}
+
+/* Tabs */
+.cl-tab {
+    border-bottom-color: var(--border-color) !important;
+    color: var(--text-secondary) !important;
+}
+
+.cl-tab.active {
+    border-bottom-color: var(--accent-color) !important;
+    color: var(--accent-color) !important;
+}
+
+/* Modal/dialog */
+.cl-modal {
+    background-color: var(--background-secondary) !important;
+}
+
+.cl-modal-header {
+    border-bottom-color: var(--border-color) !important;
+}
+
+/* Focus states for accessibility */
+:focus-visible {
+    outline: 2px solid var(--accent-color) !important;
+    outline-offset: 2px !important;
+}
+
+/* Hover states on interactive elements */
+button:hover,
+a.cl-action:hover,
+.cl-clickable:hover {
+    cursor: pointer;
+}
+
+/* Selection color */
+::selection {
+    background-color: rgba(0, 51, 102, 0.2) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Dark mode compatibility */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-primary: #0f172a;
+        --background-secondary: #1e293b;
+        --text-primary: #f1f5f9;
+        --border-color: #334155;
+    }
+    .cl-message-assistant {
+        background-color: #1e293b !important;
+    }
+}
+
+/* Print styles */
+@media print {
+    .cl-message-user,
+    .cl-button {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+    }
+}

@@ -33,5 +33,5 @@ chroma_db/
 Thumbs.db
 
 # Chainlit
-.chainlit/
-.files/
+# .chainlit/ - Contains theme configuration (intentionally tracked)
+# .files/ - Chainlit file storage

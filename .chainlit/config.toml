@@ -1,0 +1,23 @@
+[UI]
+name = "DBS Banking Assistant"
+logo = ""
+
+[features]
+# Enable custom theme
+theme = "custom"
+
+[theme]
+# Primary color for buttons, links, and accents
+primary = "#1a1a3a"
+# Secondary color
+secondary = "#003366"
+# Text color on primary background
+text_primary = "#ffffff"
+# Background colors
+background = "#f8f9fa"
+background_secondary = "#ffffff"
+# Border colors
+border = "#e0e0e0"
+
+# CSS custom properties for fine-grained control
+custom_css = ".chainlit/custom.css"
