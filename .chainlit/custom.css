@@ -2,29 +2,29 @@
 
 /* Root CSS variables for theme */
 :root {
-    /* Primary blue color - DBS brand blue */
-    --primary-color: #003366;
-    --primary-hover: #002244;
-    --primary-light: #4682b4;
+    /* Primary blue color - DBS brand blue - lighter shade */
+    --primary-color: #3498DB;
+    --primary-hover: #2980B9;
+    --primary-light: #5DADE2;
     
     /* Secondary colors */
-    --secondary-color: #1a1a3a;
-    --secondary-hover: #0f0f23;
+    --secondary-color: #2C3E50;
+    --secondary-hover: #1a252f;
     
     /* Accent colors */
-    --accent-color: #0066cc;
-    --accent-hover: #004499;
+    --accent-color: #85C1E9;
+    --accent-hover: #5DADE2;
     
     /* Error colors - keep red for errors but use DBS blue-ish red */
     --error-color: #d32f2f;
     --error-background: #ffebee;
     
-    /* Success colors */
-    --success-color: #1976d2;
-    --success-background: #e3f2fd;
+    /* Success colors - updated to match lighter blue theme */
+    --success-color: #5DADE2;
+    --success-background: #E8F4FC;
     
     /* Text colors */
-    --text-primary: #1a1a3a;
+    --text-primary: #2C3E50;
     --text-secondary: #666666;
     --text-on-primary: #ffffff;
     
@@ -51,7 +51,7 @@
 }
 
 .cl-button:focus {
-    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.3) !important;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3) !important;
 }
 
 /* Primary action buttons */
@@ -82,7 +82,7 @@
 
 .cl-input:focus {
     border-color: var(--accent-color) !important;
-    box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2) !important;
+    box-shadow: 0 0 0 2px rgba(133, 193, 233, 0.2) !important;
 }
 
 /* Sidebar and header colors */
@@ -224,7 +224,7 @@ a.cl-action:hover,
 
 /* Selection color */
 ::selection {
-    background-color: rgba(0, 51, 102, 0.2) !important;
+    background-color: rgba(52, 152, 219, 0.2) !important;
     color: var(--text-primary) !important;
 }
 

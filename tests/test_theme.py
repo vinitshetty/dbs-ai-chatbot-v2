@@ -37,10 +37,10 @@ expected_css_prefix = """/* DBS Banking Agent - Blue Theme Override */
 
 /* Root CSS variables for theme */
 :root {
-    /* Primary blue color - DBS brand blue */
-    --primary-color: #003366;
-    --primary-hover: #002244;
-    --primary-light: #4682b4;
+    /* Primary blue color - DBS brand blue - lighter shade */
+    --primary-color: #3498DB;
+    --primary-hover: #2980B9;
+    --primary-light: #5DADE2;
 """
 
 
@@ -57,7 +57,7 @@ def test_config_file_exists():
 
 
 def test_config_file_content():
-    """Test that config.toml has correct content"""
+    """Test that config.toml has correct content with lighter blue shades"""
     with open(CONFIG_FILE, 'r') as f:
         content = f.read()
     
@@ -65,10 +65,10 @@ def test_config_file_content():
     assert '[UI]' in content, "Missing [UI] section"
     assert 'name = "DBS Banking Assistant"' in content, "Missing app name"
     assert 'theme = "custom"' in content, "Missing custom theme setting"
-    assert 'primary = "#1a1a3a"' in content, "Missing primary color"
-    assert 'secondary = "#003366"' in content, "Missing secondary color"
+    assert 'primary = "#2C3E50"' in content, "Missing primary color (should be lighter shade)"
+    assert 'secondary = "#3498DB"' in content, "Missing secondary color (should be lighter shade)"
     assert 'custom_css = ".chainlit/custom.css"' in content, "Missing custom_css path"
-    print("✓ config.toml has correct content")
+    print("✓ config.toml has correct content with lighter blue shades")
 
 
 def test_css_file_exists():
@@ -78,15 +78,15 @@ def test_css_file_exists():
 
 
 def test_css_file_content():
-    """Test that custom.css has correct blue theme content"""
+    """Test that custom.css has correct blue theme content with lighter shades"""
     with open(CSS_FILE, 'r') as f:
         content = f.read()
     
-    # Check key blue color overrides
-    assert '--primary-color: #003366;' in content, "Missing primary blue color"
-    assert '--primary-hover: #002244;' in content, "Missing primary hover color"
-    assert '--accent-color: #0066cc;' in content, "Missing accent color"
-    assert '--secondary-color: #1a1a3a;' in content, "Missing secondary color"
+    # Check key blue color overrides with lighter shades
+    assert '--primary-color: #3498DB;' in content, "Missing primary blue color (lighter shade)"
+    assert '--primary-hover: #2980B9;' in content, "Missing primary hover color"
+    assert '--accent-color: #85C1E9;' in content, "Missing accent color (lighter shade)"
+    assert '--secondary-color: #2C3E50;' in content, "Missing secondary color (lighter shade)"
     
     # Check that it overrides Chainlit buttons
     assert '.cl-button' in content, "Missing .cl-button selector"
@@ -103,7 +103,7 @@ def test_css_file_content():
     # Check for blue theme comments
     assert 'DBS Banking Agent - Blue Theme Override' in content, "Missing blue theme header comment"
     
-    print("✓ custom.css has correct blue theme content")
+    print("✓ custom.css has correct blue theme content with lighter shades")
 
 
 def test_css_file_size():
@@ -114,15 +114,16 @@ def test_css_file_size():
 
 
 def test_blue_colors_present():
-    """Test that blue colors are present in CSS"""
+    """Test that blue colors are present in CSS - lighter shades"""
     with open(CSS_FILE, 'r') as f:
         content = f.read()
     
-    blue_colors = ['#003366', '#002244', '#4682b4', '#0066cc', '#004499', '#1a1a3a']
+    # Lighter blue shade colors
+    blue_colors = ['#3498DB', '#2980B9', '#5DADE2', '#85C1E9', '#2C3E50', '#1a252f']
     for color in blue_colors:
         assert color in content, f"Missing blue color: {color}"
     
-    print(f"✓ All {len(blue_colors)} blue colors present in CSS")
+    print(f"✓ All {len(blue_colors)} lighter blue colors present in CSS")
 
 
 def test_button_overrides():

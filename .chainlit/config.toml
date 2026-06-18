@@ -7,10 +7,10 @@ logo = ""
 theme = "custom"
 
 [theme]
-# Primary color for buttons, links, and accents
-primary = "#1a1a3a"
-# Secondary color
-secondary = "#003366"
+# Primary color for buttons, links, and accents (lighter shade)
+primary = "#2C3E50"
+# Secondary color (lighter shade)
+secondary = "#3498DB"
 # Text color on primary background
 text_primary = "#ffffff"
 # Background colors
