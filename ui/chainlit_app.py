@@ -3,6 +3,7 @@ import warnings
 warnings.filterwarnings("ignore", message="No trace in context")
 
 import chainlit as cl
+from chainlit import Theme
 import os
 import sys
 import langwatch
@@ -25,6 +26,30 @@ rag_engine = None
 intent_router = None
 logger = None
 langwatch_tracker = None
+
+# Define and apply blue theme
+blue_theme = Theme(
+    name="DBS Blue Theme",
+    primary=cl.Color.BLUE_600,
+    secondary=cl.Color.BLUE_700,
+    accent=cl.Color.BLUE_500,
+    background=cl.Color.GRAY_50,
+    surface=cl.Color.WHITE,
+    text=cl.Color.GRAY_900,
+    button_background=cl.Color.BLUE_600,
+    button_text=cl.Color.WHITE,
+    input_background=cl.Color.WHITE,
+    input_text=cl.Color.GRAY_800,
+    user_message_background=cl.Color.BLUE_100,
+    user_message_text=cl.Color.GRAY_900,
+    assistant_message_background=cl.Color.BLUE_50,
+    assistant_message_text=cl.Color.GRAY_900,
+    code_background=cl.Color.GRAY_100,
+    code_text=cl.Color.BLUE_GREY_900,
+)
+
+cl.set_theme(blue_theme)
+
 
 @cl.on_chat_start
 async def start():
