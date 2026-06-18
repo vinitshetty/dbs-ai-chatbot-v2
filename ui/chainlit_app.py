@@ -15,6 +15,7 @@ from rag.rag_engine import RAGEngine
 from core_banking.banking_actions import BankingActions
 from intent_router import IntentRouter
 from security.safety_filters import SafetyFilter
+from security.rate_limiter import SafetyRateLimiter
 from audit.logger import AuditLogger
 from audit.langwatch_tracker import LangWatchTracker
 import time
@@ -25,6 +26,7 @@ rag_engine = None
 intent_router = None
 logger = None
 langwatch_tracker = None
+safety_rate_limiter = None
 
 @cl.on_chat_start
 async def start():
@@ -37,6 +39,7 @@ async def start():
     llm_core = LLMCore()
     rag_engine = RAGEngine()
     intent_router = IntentRouter(llm_core, logger)
+    safety_rate_limiter = SafetyRateLimiter()
     
     # Store in session
     cl.user_session.set("user_id", "user123")  # Dummy user
@@ -77,6 +80,19 @@ async def main(message: cl.Message):
     start_time = time.time()
     
     try:
+        # Rate limiting check
+        user_id = cl.user_session.get("user_id")
+        session_id = cl.user_session.get("id")
+        
+        if not safety_rate_limiter.is_allowed(user_id=user_id):
+            logger.log_rate_limit(user_id, action="blocked")
+            response = ("⚠️ You're sending requests too quickly. "
+                       "Please wait a moment and try again.")
+            langwatch_tracker.track_final_response(response, {"rate_limited": True})
+            langwatch_tracker.end_trace()
+            await cl.Message(content=response).send()
+            return
+        
         # Safety check - Prompt injection
         injection_check = SafetyFilter.check_injection(query)
         langwatch_tracker.track_safety_check(
@@ -87,7 +103,25 @@ async def main(message: cl.Message):
         )
         
         if not injection_check["safe"]:
-            logger.log_safety_check("injection", False, injection_check["reason"])
+            logger.log_safety_check("injection", False, injection_check.get("reason"))
+            
+            # Log injection attempt with details
+            if "injection_type" in injection_check:
+                logger.log_injection_attempt(
+                    user_id=user_id,
+                    injection_type=injection_check.get("injection_type", "unknown"),
+                    confidence=injection_check.get("confidence", 0.0),
+                    text=query,
+                    layer=injection_check.get("layer", "unknown"),
+                    metadata=injection_check.get("details", {})
+                )
+            
+            # Record violation for rate limiting
+            safety_rate_limiter.record_violation(
+                user_id=user_id,
+                violation_type=injection_check.get("injection_type", "unknown")
+            )
+            
             response = ("⚠️ Your message contains content that cannot be processed. "
                        "Please rephrase your question.")
             langwatch_tracker.track_final_response(response, {"blocked": True})

@@ -69,3 +69,30 @@ class AuditLogger:
             "passed": passed,
             "reason": reason
         })
+
+    def log_injection_attempt(self, user_id: str, 
+                             injection_type: str, 
+                             confidence: float,
+                             text: str, 
+                             layer: str,
+                             metadata: dict = None):
+        """Log a prompt injection attempt with full details"""
+        self.log_event("injection_attempt", {
+            "user_id": user_id,
+            "injection_type": injection_type,
+            "confidence": confidence,
+            "text_length": len(text) if text else 0,
+            "text_preview": text[:100] if text else None,  # First 100 chars only
+            "layer": layer,
+            "metadata": metadata or {}
+        })
+
+    def log_rate_limit(self, user_id: str, 
+                       ip_address: str = None,
+                       action: str = "blocked"):
+        """Log rate limiting events"""
+        self.log_event("rate_limit", {
+            "user_id": user_id,
+            "ip_address": ip_address,
+            "action": action
+        })
