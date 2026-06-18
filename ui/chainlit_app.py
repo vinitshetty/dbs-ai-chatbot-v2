@@ -10,6 +10,17 @@ import langwatch
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+# Load custom blue theme CSS
+THEME_CSS_PATH = os.path.join(os.path.dirname(__file__), "custom_theme.css")
+
+try:
+    with open(THEME_CSS_PATH, "r") as f:
+        custom_css = f.read()
+    cl.set_custom_css(custom_css)
+except FileNotFoundError as e:
+    cl.logger.warn(f"Custom theme CSS not found: {e}")
+    # Continue with default theme
+
 from llm.llm_core import LLMCore
 from rag.rag_engine import RAGEngine
 from core_banking.banking_actions import BankingActions

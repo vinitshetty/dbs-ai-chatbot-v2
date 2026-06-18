@@ -1,0 +1,222 @@
+/* ===== BLUE THEME OVERIDES ===== */
+
+/* Primary blue color scheme */
+:root {
+    --primary-color: #1e40af;
+    --primary-hover: #1d4ed8;
+    --primary-light: #3b82f6;
+    --primary-dark: #1e3a8a;
+    
+    /* Background colors */
+    --background-primary: #f8fafc;
+    --background-secondary: #f1f5f9;
+    --background-tertiary: #e2e8f0;
+    
+    /* Text colors */
+    --text-primary: #0f172a;
+    --text-secondary: #1e293b;
+    --text-muted: #64748b;
+    
+    /* Border colors */
+    --border-color: #e2e8f0;
+    
+    /* Accent colors */
+    --accent-color: #3b82f6;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+    
+    /* Button colors */
+    --button-primary-bg: #3b82f6;
+    --button-primary-hover: #2563eb;
+    --button-primary-text: #ffffff;
+    
+    /* Card colors */
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    
+    /* Sidebar colors */
+    --sidebar-bg: #1e293b;
+    --sidebar-text: #f8fafc;
+    --sidebar-hover: #334155;
+    
+    /* Chat bubble colors */
+    --user-bubble-bg: #3b82f6;
+    --user-bubble-text: #ffffff;
+    --assistant-bubble-bg: #f1f5f9;
+    --assistant-bubble-text: #0f172a;
+}
+
+/* Override Chainlit default styles */
+.cl-app {
+    background-color: var(--background-primary) !important;
+}
+
+/* Chat container */
+.cl-chat-container {
+    background-color: var(--background-secondary) !important;
+}
+
+/* User message bubbles */
+.cl-user-message {
+    background-color: var(--user-bubble-bg) !important;
+    color: var(--user-bubble-text) !important;
+    border-radius: 16px !important;
+}
+
+/* Assistant message bubbles */
+.cl-assistant-message {
+    background-color: var(--assistant-bubble-bg) !important;
+    color: var(--assistant-bubble-text) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 16px !important;
+}
+
+/* Input area */
+.cl-input-container {
+    background-color: var(--background-tertiary) !important;
+    border-top: 1px solid var(--border-color) !important;
+}
+
+.cl-input {
+    background-color: #ffffff !important;
+    border: 2px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+.cl-input:focus {
+    border-color: var(--primary-color) !important;
+    outline: none !important;
+}
+
+/* Send button */
+.cl-send-button {
+    background-color: var(--button-primary-bg) !important;
+    color: var(--button-primary-text) !important;
+}
+
+.cl-send-button:hover {
+    background-color: var(--button-primary-hover) !important;
+}
+
+/* Sidebar */
+.cl-sidebar {
+    background-color: var(--sidebar-bg) !important;
+    color: var(--sidebar-text) !important;
+}
+
+.cl-sidebar-item:hover {
+    background-color: var(--sidebar-hover) !important;
+}
+
+/* Buttons */
+.cl-button {
+    background-color: var(--button-primary-bg) !important;
+    color: var(--button-primary-text) !important;
+    border: none !important;
+}
+
+.cl-button:hover {
+    background-color: var(--button-primary-hover) !important;
+}
+
+/* Cards */
+.cl-card {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--card-border) !important;
+}
+
+/* Action buttons */
+.cl-action-button {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+.cl-action-button:hover {
+    background-color: var(--primary-hover) !important;
+}
+
+/* Error messages */
+.cl-error {
+    color: var(--error-color) !important;
+    background-color: #fef2f2 !important;
+    border-color: #fecaca !important;
+}
+
+/* Success messages */
+.cl-success {
+    color: var(--success-color) !important;
+    background-color: #ecfdf5 !important;
+    border-color: #a7f3d0 !important;
+}
+
+/* Loading spinner */
+.cl-spinner {
+    color: var(--primary-color) !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hover);
+}
+
+/* Links */
+a {
+    color: var(--primary-color) !important;
+}
+
+a:hover {
+    color: var(--primary-hover) !important;
+}
+
+/* Code blocks */
+.cl-code-block {
+    background-color: #1e293b !important;
+    border-radius: 8px !important;
+    padding: 16px !important;
+}
+
+.cl-code-block pre {
+    color: #e2e8f0 !important;
+}
+
+/* Markdown content */
+.cl-markdown {
+    color: var(--text-primary) !important;
+}
+
+.cl-markdown h1,
+.cl-markdown h2,
+.cl-markdown h3 {
+    color: var(--primary-color) !important;
+}
+
+.cl-markdown a {
+    color: var(--primary-color) !important;
+}
+
+/* Welcome screen overrides */
+.cl-welcome-screen {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%) !important;
+}
+
+.cl-welcome-screen h1 {
+    color: white !important;
+}
+
+.cl-welcome-screen p {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
