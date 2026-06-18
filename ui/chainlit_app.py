@@ -34,7 +34,7 @@ async def start():
     # Initialize components
     logger = AuditLogger()
     langwatch_tracker = LangWatchTracker()
-    llm_core = LLMCore()
+    llm_core = LLMCore(logger=logger)
     rag_engine = RAGEngine()
     intent_router = IntentRouter(llm_core, logger)
     
