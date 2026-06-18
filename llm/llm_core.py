@@ -57,7 +57,7 @@ Context:
         
         prompt = """Classify the user query into ONE of these intents:
 - faq: General questions about bank services, hours, fees, policies
-- read: Check balance, view account info, check transaction history
+- read: Check balance, view account info, check transaction history, view statements
 - write: Lock/unlock card, transfer money, update details
 - unclear: Cannot determine intent
 
@@ -83,7 +83,8 @@ Example: faq|0.9"""
         
         prompts = {
             "lock_card": "Extract the last 4 digits of the card from: {query}\nRespond with ONLY the 4 digits or 'unknown'",
-            "transfer": "Extract from_account, to_account, and amount from: {query}\nFormat: from|to|amount or 'unknown'"
+            "transfer": "Extract from_account, to_account, and amount from: {query}\nFormat: from|to|amount or 'unknown'",
+            "get_transactions": "Extract date range (start_date, end_date), type (credit/debit), min_amount, max_amount, limit from: {query}\nFormat: start_date|end_date|type|min_amount|max_amount|limit or 'unknown'"
         }
         
         if action_type not in prompts:
@@ -107,6 +108,35 @@ Example: faq|0.9"""
                         "amount": float(parts[2].strip())
                     }
         
+        elif action_type == "get_transactions":
+            if result != "unknown":
+                parts = result.split("|")
+                # Expected: start_date|end_date|type|min_amount|max_amount|limit
+                if len(parts) >= 6:
+                    params = {}
+                    if parts[0].strip() and parts[0].strip() != "None":
+                        params["start_date"] = parts[0].strip()
+                    if parts[1].strip() and parts[1].strip() != "None":
+                        params["end_date"] = parts[1].strip()
+                    if parts[2].strip() and parts[2].strip().lower() in ["credit", "debit"]:
+                        params["type"] = parts[2].strip()
+                    if parts[3].strip() and parts[3].strip() != "None":
+                        try:
+                            params["min_amount"] = float(parts[3].strip())
+                        except ValueError:
+                            pass
+                    if parts[4].strip() and parts[4].strip() != "None":
+                        try:
+                            params["max_amount"] = float(parts[4].strip())
+                        except ValueError:
+                            pass
+                    if parts[5].strip() and parts[5].strip() != "None":
+                        try:
+                            params["limit"] = int(parts[5].strip())
+                        except ValueError:
+                            pass
+                    return params
+        
         return {}
     
     def plan_action(self, query: str, intent: str) -> dict:
@@ -118,7 +148,7 @@ Query: {query}
 Intent: {intent}
 
 Determine:
-1. Action name (lock_card, unlock_card, check_balance, transfer_funds)
+1. Action name (lock_card, unlock_card, check_balance, transfer_funds, get_transactions)
 2. Required parameters
 3. Needs authentication? (yes/no)
 
