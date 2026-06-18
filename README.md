@@ -46,3 +46,16 @@ dbs_banking_agent/
 - Multi-turn conversations
 - LangWatch observability
 
+## Theme Configuration
+
+The application uses a custom blue theme. To modify the theme:
+
+1. Edit `.chainlit/config.toml` for persistent theme changes
+2. Or modify `ui/chainlit_app.py` (the `cl.set_defaults()` call)
+
+Color palette:
+- Primary: `#3b82f6` (Blue-500)
+- Primary Hover: `#2563eb` (Blue-600)
+- Secondary: `#60a5fa` (Blue-400)
+- Error: `#ef4444` (Red-500 - kept red for UX convention)
+
