@@ -15,6 +15,46 @@ load_dotenv(Path(PROJECT_ROOT) / ".env")
 
 import chainlit as cl
 
+# Set blue theme configuration
+cl.set_theme(
+    primary=(
+        cl.ThemeColor(
+            color="#1E40AF",  # DBS Blue primary - dark blue
+            gradient_start="#3B82F6",  # Lighter blue for gradient
+            gradient_end="#1E40AF",
+        )
+    ),
+    secondary=(
+        cl.ThemeColor(
+            color="#60A5FA",  # Light blue for secondary elements
+            gradient_start="#93C5FD",
+            gradient_end="#60A5FA",
+        )
+    ),
+    background=(
+        cl.ThemeColor(
+            color="#EFF6FF",  # Very light blue background
+        )
+    ),
+    text=(
+        cl.ThemeColor(
+            color="#1E3A8A",  # Dark blue for text
+        )
+    ),
+    button=(
+        cl.ThemeColor(
+            color="#2563EB",  # DBS Brand blue for buttons
+            hover_color="#1D4ED8",  # Darker blue on hover
+        )
+    ),
+    input=(
+        cl.ThemeColor(
+            background_color="#DBEAFE",  # Light blue input background
+            border_color="#3B82F6",
+        )
+    ),
+)
+
 from llm.llm_core import LLMCore
 from rag.rag_engine import RAGEngine
 from core_banking.banking_actions import BankingActions
@@ -47,6 +87,9 @@ async def start():
     cl.user_session.set("user_id", "user123")  # Dummy user
     cl.user_session.set("conversation_history", [])
     cl.user_session.set("authenticated", False)
+    
+    # Load custom blue theme CSS
+    cl.add_css("custom.css")
     
     await cl.Message(
         content="👋 Welcome to DBS Banking Assistant!\n\nI can help you with:\n"
