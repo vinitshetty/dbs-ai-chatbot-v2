@@ -1,8 +1,8 @@
-﻿chainlit
-langchain
-langchain-mistralai
-chromadb
-crewai
-python-dotenv
-langwatch
-mistralai
+chainlit>=2.9.4
+chromadb>=1.1.1
+langchain-community>=0.4.1
+langchain-core>=1.2.6
+langchain-mistralai>=1.1.1
+langwatch>=0.8.0
+mistralai>=1.9.11
+python-dotenv>=1.1.1
