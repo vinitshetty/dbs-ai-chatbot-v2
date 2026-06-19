@@ -1,0 +1,118 @@
+/* DBS Banking Agent - Blue Theme Custom Styles */
+
+/* Main chat container background */
+.chainlit-chat {
+    background-color: #F0F9FF !important;
+}
+
+/* Message bubbles - user messages */
+.chainlit-message-user {
+    background-color: #EFF6FF !important;
+    border-left: 4px solid #3B82F6 !important;
+}
+
+/* Message bubbles - assistant messages */
+.chainlit-message-assistant {
+    background-color: #DBEAFE !important;
+    border-left: 4px solid #1E40AF !important;
+}
+
+/* Sidebar styling */
+.chainlit-sidebar {
+    background-color: #1E3A8A !important;
+}
+
+.chainlit-sidebar-text {
+    color: #FFFFFF !important;
+}
+
+/* Buttons - primary actions */
+.chainlit-button {
+    background-color: #2563EB !important;
+    color: white !important;
+    border: none !important;
+}
+
+.chainlit-button:hover {
+    background-color: #1D4ED8 !important;
+}
+
+/* Input field styling */
+.chainlit-input {
+    background-color: #DBEAFE !important;
+    border-color: #3B82F6 !important;
+}
+
+.chainlit-input:focus {
+    border-color: #1E40AF !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Action buttons (Auth prompts, etc.) */
+.chainlit-action-button {
+    background-color: #2563EB !important;
+    color: white !important;
+}
+
+.chainlit-action-button:hover {
+    background-color: #1D4ED8 !important;
+}
+
+/* Welcome message styling */
+.welcome-message {
+    color: #1E40AF !important;
+}
+
+/* Error/Success indicators - maintain accessibility */
+.chainlit-error {
+    background-color: #FEE2E2 !important;
+    border-color: #EF4444 !important;
+    color: #991B1B !important;
+}
+
+.chainlit-success {
+    background-color: #D1FAE5 !important;
+    border-color: #10B981 !important;
+    color: #065F46 !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar-thumb {
+    background-color: #3B82F6 !important;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #EFF6FF !important;
+}
+
+/* Loading spinner */
+.chainlit-spinner {
+    color: #2563EB !important;
+}
+
+/* Code blocks in messages */
+.chainlit-code-block {
+    background-color: #EFF6FF !important;
+    border-left: 4px solid #3B82F6 !important;
+}
+
+/* Link colors */
+a {
+    color: #2563EB !important;
+}
+
+a:hover {
+    color: #1D4ED8 !important;
+    text-decoration: underline !important;
+}
+
+/* Header/Navigation */
+.chainlit-header {
+    background-color: #1E40AF !important;
+    color: white !important;
+}
+
+/* Avatar icons */
+.chainlit-avatar {
+    background-color: #2563EB !important;
+}
