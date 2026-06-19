@@ -2,13 +2,18 @@
 import warnings
 warnings.filterwarnings("ignore", message="No trace in context")
 
-import chainlit as cl
 import os
 import sys
-import langwatch
+from pathlib import Path
 
 # Add parent directory to path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PROJECT_ROOT = str(Path(__file__).resolve().parent.parent)
+sys.path.append(PROJECT_ROOT)
+
+from dotenv import load_dotenv
+load_dotenv(Path(PROJECT_ROOT) / ".env")
+
+import chainlit as cl
 
 from llm.llm_core import LLMCore
 from rag.rag_engine import RAGEngine
@@ -53,7 +58,6 @@ async def start():
     ).send()
 
 @cl.on_message
-@langwatch.trace()
 async def main(message: cl.Message):
     """Handle user messages"""
     query = message.content

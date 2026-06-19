@@ -3,7 +3,7 @@
 import re
 import os
 from typing import Dict
-from mistralai import Mistral
+from mistralai.client import Mistral
 
 class SafetyFilter:
     """Safety filters using Mistral AI's moderation features"""

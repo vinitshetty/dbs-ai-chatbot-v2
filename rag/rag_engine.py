@@ -17,9 +17,13 @@ class MistralLangChainEmbeddingFunction(EmbeddingFunction):
 
 class RAGEngine:
     """Retrieval Augmented Generation engine"""
-    
-    def __init__(self, knowledge_path="knowledge_docs/faqs.json",
-                 persist_dir="chroma_db"):
+
+    def __init__(self, knowledge_path=None, persist_dir=None):
+        project_root = Path(__file__).resolve().parent.parent
+        if knowledge_path is None:
+            knowledge_path = str(project_root / "knowledge_docs" / "faqs.json")
+        if persist_dir is None:
+            persist_dir = str(project_root / "chroma_db")
         self.client = chromadb.Client(Settings(
             persist_directory=persist_dir,
             anonymized_telemetry=False

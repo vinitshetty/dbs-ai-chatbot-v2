@@ -32,7 +32,7 @@ class LangWatchTracker:
     def __init__(self):
         api_key = os.getenv("LANGWATCH_API_KEY")
         if api_key:
-            langwatch.api_key = api_key
+            langwatch.setup(api_key=api_key)
             self.enabled = True
             print("✅ LangWatch tracking enabled")
         else:
@@ -113,17 +113,12 @@ class LangWatchTracker:
                     },
                 )
 
+                rag_contexts = []
                 for i, result in enumerate(results):
-                    doc_meta = result.get("metadata", {}) or {}
+                    rag_contexts.append(_to_str(result.get("content", "")))
 
-                    span.add_context(
-                        content=_to_str(result.get("content", "")),
-                        metadata={
-                            "rank": str(i + 1),
-                            "source": _to_str(doc_meta.get("source")),
-                            "doc_id": _to_str(doc_meta.get("id")),
-                        },
-                    )
+                if rag_contexts:
+                    span.update(contexts=rag_contexts)
         except Exception as e:
             print(f"LangWatch RAG tracking error: {e}")
 

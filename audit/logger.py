@@ -8,7 +8,9 @@ from pathlib import Path
 class AuditLogger:
     """Log all queries, intents, actions, and responses"""
     
-    def __init__(self, log_dir="logs"):
+    def __init__(self, log_dir=None):
+        if log_dir is None:
+            log_dir = Path(__file__).resolve().parent.parent / "logs"
         self.log_dir = Path(log_dir)
         self.log_dir.mkdir(exist_ok=True)
         self.session_file = self.log_dir / f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jsonl"
