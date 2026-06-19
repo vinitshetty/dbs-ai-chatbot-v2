@@ -1,5 +1,6 @@
 # RAG Engine - ChromaDB vector store
 """RAG engine using ChromaDB"""
+import hashlib
 import json
 import os
 import chromadb
@@ -20,6 +21,7 @@ class RAGEngine:
     
     def __init__(self, knowledge_path="knowledge_docs/faqs.json",
                  persist_dir="chroma_db"):
+        self.knowledge_path = knowledge_path
         self.client = chromadb.Client(Settings(
             persist_directory=persist_dir,
             anonymized_telemetry=False
@@ -27,25 +29,25 @@ class RAGEngine:
 
         embedding_function = MistralLangChainEmbeddingFunction()
 
-        # Delete the collection if it exists to ensure the new embedding function is used
-        try:
-            self.client.delete_collection(name="dbs_banking")
-        except Exception:
-            pass  # Collection doesn't exist, so no need to delete
-
-        self.collection = self.client.create_collection(
+        # Use get_or_create_collection to preserve existing collection
+        self.collection = self.client.get_or_create_collection(
             name="dbs_banking",
             embedding_function=embedding_function,
             metadata={"description": "DBS Banking knowledge base"}
         )
 
-        if self.collection.count() == 0:
-            self._load_knowledge(knowledge_path)
+        # Only re-index if knowledge source has changed
+        if self._knowledge_changed():
+            self._reindex_knowledge()
 
     def _load_knowledge(self, knowledge_path: str):
         """Load FAQs and policies into ChromaDB"""
-        with open(knowledge_path, 'r') as f:
-            data = json.load(f)
+        try:
+            with open(knowledge_path, 'r') as f:
+                data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            # If file doesn't exist or is corrupted, log and return
+            return
 
         documents = []
         metadatas = []
@@ -82,6 +84,68 @@ class RAGEngine:
                 metadatas=metadatas,
                 ids=ids
             )
+
+    def _compute_knowledge_hash(self) -> str:
+        """Compute SHA256 hash of knowledge file contents."""
+        path = Path(self.knowledge_path)
+        if not path.exists():
+            return ""
+        
+        with open(path, 'rb') as f:
+            content = f.read()
+        
+        return hashlib.sha256(content).hexdigest()
+
+    def _get_stored_hash(self) -> str:
+        """Retrieve stored knowledge hash from collection metadata."""
+        try:
+            # Check if we have a stored hash in the collection's own metadata
+            if "knowledge_hash" in self.collection.metadata:
+                return self.collection.metadata["knowledge_hash"]
+        except Exception:
+            pass
+        return ""
+
+    def _store_knowledge_hash(self, knowledge_hash: str):
+        """Store knowledge hash in collection metadata."""
+        try:
+            # Update collection metadata with new hash
+            self.collection.modify(
+                name="dbs_banking",
+                metadata={
+                    **self.collection.metadata,
+                    "knowledge_hash": knowledge_hash
+                }
+            )
+        except Exception:
+            # Fallback: log but don't fail
+            pass
+
+    def _knowledge_changed(self) -> bool:
+        """Check if knowledge source has changed since last indexing."""
+        current_hash = self._compute_knowledge_hash()
+        stored_hash = self._get_stored_hash()
+        
+        # If no stored hash, this is first run - need to index
+        if not stored_hash:
+            return True
+        
+        return current_hash != stored_hash
+
+    def _reindex_knowledge(self):
+        """Clear existing collection and re-index all documents."""
+        # Clear existing documents
+        try:
+            self.collection.delete(where={})  # Delete all documents
+        except Exception:
+            pass  # Collection may be empty, that's fine
+        
+        # Load fresh knowledge
+        self._load_knowledge(self.knowledge_path)
+        
+        # Store new hash
+        new_hash = self._compute_knowledge_hash()
+        self._store_knowledge_hash(new_hash)
     
     def retrieve(self, query: str, n_results: int = 3) -> list:
         """Retrieve relevant documents"""
