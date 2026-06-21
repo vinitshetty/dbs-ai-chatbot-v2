@@ -1,14 +1,41 @@
-# Welcome to Chainlit! 🚀🤖
+# Welcome to DBS Banking Assistant 🏦
 
-Hi there, Developer! 👋 We're excited to have you on board. Chainlit is a powerful tool designed to help you prototype, debug and share applications built on top of LLMs.
+Welcome to the DBS Retail Banking RAG + Action Agent. Ask me about branch hours, fees, card management, or account balances!
+
+---
+
+## Theme
+
+```yaml
+ui:
+  name: DBS Banking Assistant
+  description: A conversational AI for DBS Retail Banking
+  primary:
+    hue: blue
+    brightness: medium
+  secondary:
+    hue: blue
+    brightness: light
+  user:
+    hue: blue
+    brightness: medium
+  bot:
+    hue: blue
+    brightness: light
+  text:
+    hue: gray
+    brightness: dark
+  neutral:
+    hue: slate
+    brightness: medium
+  background:
+    hue: slate
+    brightness: light
+    contrast: low
+```
+
+---
 
 ## Useful Links 🔗
 
-- **Documentation:** Get started with our comprehensive [Chainlit Documentation](https://docs.chainlit.io) 📚
-- **Discord Community:** Join our friendly [Chainlit Discord](https://discord.gg/k73SQ3FyUh) to ask questions, share your projects, and connect with other developers! 💬
-
-We can't wait to see what you create with Chainlit! Happy coding! 💻😊
-
-## Welcome screen
-
-To modify the welcome screen, edit the `chainlit.md` file at the root of your project. If you do not want a welcome screen, just leave this file empty.
+- **Documentation:** [Chainlit Documentation](https://docs.chainlit.io) 📚

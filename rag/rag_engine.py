@@ -2,11 +2,18 @@
 """RAG engine using ChromaDB"""
 import json
 import os
+import hashlib
 import chromadb
 from chromadb.config import Settings
 from chromadb.api.types import EmbeddingFunction, Documents, Embeddings
 from langchain_mistralai.embeddings import MistralAIEmbeddings
 from pathlib import Path
+
+# Collection name constant
+COLLECTION_NAME = "dbs_banking"
+
+# Metadata key for storing knowledge hash
+KNOWLEDGE_HASH_KEY = "knowledge_hash"
 
 class MistralLangChainEmbeddingFunction(EmbeddingFunction):
     def __init__(self):
@@ -31,20 +38,30 @@ class RAGEngine:
 
         embedding_function = MistralLangChainEmbeddingFunction()
 
-        # Delete the collection if it exists to ensure the new embedding function is used
-        try:
-            self.client.delete_collection(name="dbs_banking")
-        except Exception:
-            pass  # Collection doesn't exist, so no need to delete
-
-        self.collection = self.client.create_collection(
-            name="dbs_banking",
+        # Use get_or_create_collection instead of delete+create
+        self.collection = self.client.get_or_create_collection(
+            name=COLLECTION_NAME,
             embedding_function=embedding_function,
             metadata={"description": "DBS Banking knowledge base"}
         )
 
-        if self.collection.count() == 0:
+        # Check if knowledge file has changed before re-indexing
+        current_hash = self._compute_file_hash(knowledge_path)
+        metadata = self.collection.metadata or {}
+        
+        # Re-index only if collection is empty OR knowledge file changed
+        stored_hash = metadata.get(KNOWLEDGE_HASH_KEY)
+        if self.collection.count() == 0 or stored_hash != current_hash:
             self._load_knowledge(knowledge_path)
+            # Update the hash in collection metadata
+            try:
+                self.collection.modify(
+                    name=COLLECTION_NAME,
+                    metadata={**metadata, KNOWLEDGE_HASH_KEY: current_hash}
+                )
+            except Exception:
+                # Log warning but don't fail if metadata update fails
+                pass
 
     def _load_knowledge(self, knowledge_path: str):
         """Load FAQs and policies into ChromaDB"""
@@ -86,6 +103,15 @@ class RAGEngine:
                 metadatas=metadatas,
                 ids=ids
             )
+    
+    def _compute_file_hash(self, file_path: str) -> str:
+        """Compute SHA256 hash of a file for change detection."""
+        hash_sha256 = hashlib.sha256()
+        with open(file_path, "rb") as f:
+            # Read file in chunks to handle large files
+            for chunk in iter(lambda: f.read(4096), b""):
+                hash_sha256.update(chunk)
+        return hash_sha256.hexdigest()
     
     def retrieve(self, query: str, n_results: int = 3) -> list:
         """Retrieve relevant documents"""
