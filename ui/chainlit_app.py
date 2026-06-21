@@ -15,6 +15,27 @@ load_dotenv(Path(PROJECT_ROOT) / ".env")
 
 import chainlit as cl
 
+# Set Chainlit theme to blue
+cl.set_defaults(
+    theme={
+        "primary": "#3b82f6",
+        "primary_hover": "#2563eb",
+        "secondary": "#60a5fa",
+        "text": "#1e293b",
+        "text_secondary": "#64748b",
+        "background": "#f8fafc",
+        "background_secondary": "#f1f5f9",
+        "border": "#e2e8f0",
+        "success": "#10b981",
+        "warning": "#f59e0b",
+        "error": "#ef4444",
+    },
+    ui={
+        "name": "DBS Banking Assistant",
+        "description": "AI-powered banking assistant with blue theme",
+    }
+)
+
 from llm.llm_core import LLMCore
 from rag.rag_engine import RAGEngine
 from core_banking.banking_actions import BankingActions
