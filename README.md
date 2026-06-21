@@ -8,7 +8,7 @@ A conversational AI prototype for DBS Bank using RAG + Actions.
 ```powershell
 python -m venv venv
 .\venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+pip install -e .
 ```
 
 ### 2. Configure Environment
