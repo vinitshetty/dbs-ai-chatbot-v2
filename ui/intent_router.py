@@ -14,6 +14,9 @@ class IntentRouter:
     def __init__(self, llm_core: LLMCore, logger: AuditLogger):
         self.llm = llm_core
         self.logger = logger
+        # Ensure llm_core has the logger
+        if not llm_core.logger:
+            llm_core.logger = logger
     
     def classify(self, query: str) -> dict:
         """Classify query using rules + LLM"""
