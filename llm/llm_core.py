@@ -2,11 +2,53 @@
 """LLM orchestration using Mistral AI"""
 import os
 from langchain_mistralai import ChatMistralAI
-from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+
+
+def _convert_to_basemessage(msg):
+    """Convert a message to BaseMessage object if it's a dict.
+    
+    Args:
+        msg: Either a dict with 'role' and 'content' keys, or already a BaseMessage
+        
+    Returns:
+        BaseMessage object (HumanMessage, AIMessage, or SystemMessage)
+        or None if the message cannot be converted
+    """
+    if isinstance(msg, dict):
+        role = msg.get("role", "").lower()
+        content = msg.get("content", "")
+        if role == "user":
+            return HumanMessage(content=content)
+        elif role == "assistant":
+            return AIMessage(content=content)
+        elif role == "system":
+            return SystemMessage(content=content)
+        else:
+            return None
+    # Already a BaseMessage object
+    return msg
+
+
+def _normalize_message_history(history):
+    """Convert a list of messages (dicts or BaseMessage) to BaseMessage objects.
+    
+    Args:
+        history: List of message dicts or BaseMessage objects
+        
+    Returns:
+        List of BaseMessage objects
+    """
+    normalized = []
+    for msg in history:
+        converted = _convert_to_basemessage(msg)
+        if converted is not None:
+            normalized.append(converted)
+    return normalized
 
 
 class LLMCore:
@@ -46,7 +88,10 @@ Context:
         
         # Add conversation history if available
         if conversation_history:
-            messages.extend(conversation_history[-4:])  # Last 2 turns
+            # Normalize history to ensure all messages are BaseMessage objects
+            # This handles both dict-based history (from old sessions) and BaseMessage objects
+            normalized_history = _normalize_message_history(conversation_history[-4:])
+            messages.extend(normalized_history)
         
         messages.append(HumanMessage(content=query))
         
