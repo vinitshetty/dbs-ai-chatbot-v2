@@ -52,6 +52,7 @@ async def start():
         content="👋 Welcome to DBS Banking Assistant!\n\nI can help you with:\n"
                 "- Branch hours and fees\n"
                 "- Checking your balance\n"
+                "- Viewing your transaction history\n"
                 "- Locking/unlocking cards\n"
                 "- Transferring funds\n\n"
                 "How can I assist you today?"
@@ -269,6 +270,77 @@ async def handle_action(query: str, intent: str, user_id: str) -> str:
                    f"Account: {result['account_number']}")
         else:
             return f"❌ {result['error']}"
+    
+    elif action_name == "get_transactions":
+        # Extract filter parameters
+        start_exec = time.time()
+        
+        # Parse query for filters
+        params = llm_core.extract_action_params(query, "get_transactions")
+        
+        # Default: get last 10 transactions
+        start_date = params.get("start_date")
+        end_date = params.get("end_date")
+        txn_type = params.get("type")
+        min_amt = params.get("min_amount")
+        max_amt = params.get("max_amount")
+        limit = params.get("limit", 10)
+        
+        try:
+            result = BankingActions.get_transactions(
+                user_id,
+                start_date=start_date,
+                end_date=end_date,
+                transaction_type=txn_type,
+                min_amount=min_amt,
+                max_amount=max_amt,
+                limit=limit
+            )
+            exec_time = (time.time() - start_exec) * 1000
+            
+            logger.log_action(action_name, params, result)
+            langwatch_tracker.track_action_execution(
+                action_name,
+                params,
+                result,
+                execution_time_ms=exec_time
+            )
+            
+            if result["success"]:
+                txns = result["transactions"]
+                if not txns:
+                    return "No transactions found matching your criteria."
+                
+                # Format as table
+                table_header = "| Date | Type | Description | Amount | Balance |\n|------|------|-------------|--------|---------|"
+                table_rows = []
+                
+                for txn in txns:
+                    date = txn.get("date", "N/A")
+                    txn_type = txn.get("type", "unknown").title()
+                    desc = txn.get("description", "N/A")
+                    amount = f"${txn.get('amount', 0):.2f}"
+                    balance = f"${txn.get('balance', 0):.2f}"
+                    
+                    # Add color formatting for type
+                    if txn.get("type") == "debit":
+                        amount = f"**-{amount}**"
+                    else:
+                        amount = f"**+{amount}**"
+                    
+                    table_rows.append(f"| {date} | {txn_type} | {desc} | {amount} | {balance} |")
+                
+                table = table_header + "\n" + "\n".join(table_rows)
+                
+                return (f"📋 Your Recent Transactions\n\n"
+                        f"Showing {result['count']} of {result['total_available']} transactions:\n\n"
+                        f"{table}")
+            else:
+                return f"❌ {result.get('error') or result.get('message')}"
+        except Exception as e:
+            logger.log_event("error", {"error": str(e), "action": "get_transactions"})
+            langwatch_tracker.track_error(e, {"query": query, "action": action_name})
+            return f"❌ An error occurred retrieving your transactions: {str(e)}"
     
     elif action_name in ["lock_card", "unlock_card"]:
         # Get authentication if needed

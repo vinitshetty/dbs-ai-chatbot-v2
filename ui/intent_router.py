@@ -8,7 +8,7 @@ class IntentRouter:
     
     # Keywords for simple rule-based classification
     FAQ_KEYWORDS = ["what", "when", "where", "how", "fee", "hours", "branch", "policy"]
-    READ_KEYWORDS = ["check", "balance", "show", "view", "status"]
+    READ_KEYWORDS = ["check", "balance", "show", "view", "status", "transaction", "transactions", "history", "recent", "statement"]
     WRITE_KEYWORDS = ["lock", "unlock", "transfer", "send", "pay", "update", "change"]
     
     def __init__(self, llm_core: LLMCore, logger: AuditLogger):
