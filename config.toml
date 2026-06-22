@@ -1,0 +1,68 @@
+[theme]
+
+# Primary blue color scheme for DBS branding
+primary = "#1A367F"
+secondary = "#0052CC"
+
+# Background colors
+background_primary = "#FFFFFF"
+background_secondary = "#F8F9FA"
+background_tertiary = "#E9ECEF"
+
+# Text colors
+text_primary = "#1A367F"
+text_secondary = "#495057"
+
+# Interactive elements
+button_primary = "#0052CC"
+button_primary_hover = "#003D99"
+button_secondary = "#6C757D"
+button_secondary_hover = "#5A6268"
+
+# Success/Error/Warning colors
+success = "#28A745"
+error = "#DC3545"
+warning = "#FFC107"
+
+# Input elements
+input_background = "#FFFFFF"
+input_border = "#CED4DA"
+input_text = "#1A367F"
+
+# Sidebar
+sidebar_background = "#F8F9FA"
+sidebar_text = "#1A367F"
+
+# Message bubbles
+user_message_background = "#0052CC"
+user_message_text = "#FFFFFF"
+bot_message_background = "#F8F9FA"
+bot_message_text = "#1A367F"
+
+# Border colors
+border_primary = "#DEE2E6"
+
+# Link colors
+link = "#0052CC"
+link_hover = "#003D99"
+
+# Shadow colors
+shadow = "rgba(26, 54, 127, 0.1)"
+
+[UI]
+
+# DBS branding
+title = "DBS Banking Assistant"
+logo = null
+favicon = null
+
+# Layout
+layout = "chat"
+chat_persist = true
+chat_input_placeholder = "How can I assist you today?"
+
+[features]
+
+# Ensure all features are enabled
+code_block_copy_button = true
+syntax_highlighting = true
