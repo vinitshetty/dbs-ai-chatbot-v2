@@ -1,14 +1,44 @@
-# Welcome to Chainlit! 🚀🤖
+---
+theme:
+  name: DBS Blue Theme
+  primary_hue: blue
+  primary_color: "#0066CC"
+  background_color: "#FFFFFF"
+  secondary_background_color: "#F8F9FF"
+  text_color: "#1A1A1A"
+  secondary_text_color: "#4A4A4A"
+  border_color: "#0066CC"
+  button_primary_background: "#0066CC"
+  button_primary_text: "#FFFFFF"
+  button_secondary_background: "#E6F0FF"
+  button_secondary_text: "#0066CC"
+  accent_color: "#0066CC"
+  success_color: "#0066CC"
+  error_color: "#CC0033"
+  info_color: "#0066CC"
+  warning_color: "#FF9900"
+---
 
-Hi there, Developer! 👋 We're excited to have you on board. Chainlit is a powerful tool designed to help you prototype, debug and share applications built on top of LLMs.
+# Welcome to DBS Banking Assistant! 🚀💙
 
-## Useful Links 🔗
+Hi there! Welcome to the DBS Banking Assistant. I'm here to help you with all your banking needs.
 
-- **Documentation:** Get started with our comprehensive [Chainlit Documentation](https://docs.chainlit.io) 📚
-- **Discord Community:** Join our friendly [Chainlit Discord](https://discord.gg/k73SQ3FyUh) to ask questions, share your projects, and connect with other developers! 💬
+## What I can help with:
 
-We can't wait to see what you create with Chainlit! Happy coding! 💻😊
+- 🏦 **Branch Information**: Hours, locations, and fees
+- 💰 **Account Management**: Check balances and transaction history
+- 💳 **Card Services**: Lock/unlock cards, report lost cards
+- 🔄 **Transfers**: Move money between accounts
+- ❓ **FAQ**: Get answers to common banking questions
 
-## Welcome screen
+## How to use me:
 
-To modify the welcome screen, edit the `chainlit.md` file at the root of your project. If you do not want a welcome screen, just leave this file empty.
+Just type your question or request in natural language. For example:
+- "What are your branch hours on weekends?"
+- "Show me my account balance"
+- "Lock my card ending in 1234"
+- "Transfer $500 to my savings account"
+
+---
+
+*Powered by DBS Bank - Your trusted financial partner*

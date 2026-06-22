@@ -1,0 +1,202 @@
+/* Custom Blue Theme for DBS Banking Assistant */
+/* Overrides Chainlit's default red color scheme */
+
+/* Primary Action Buttons */
+.cl-action-button {
+    background-color: #0066CC !important;
+    border-color: #0066CC !important;
+    color: white !important;
+}
+
+.cl-action-button:hover {
+    background-color: #0052A3 !important;
+    border-color: #0052A3 !important;
+}
+
+.cl-action-button:active {
+    background-color: #004488 !important;
+}
+
+/* Secondary/Alt Buttons */
+.cl-button {
+    background-color: #E6F0FF !important;
+    border-color: #0066CC !important;
+    color: #0066CC !important;
+}
+
+.cl-button:hover {
+    background-color: #CCE0FF !important;
+    border-color: #0052A3 !important;
+}
+
+/* Success/Primary State Colors */
+.cl-success {
+    background-color: #0066CC !important;
+    color: white !important;
+}
+
+/* Error State - Keep red for errors but use blue-ish red */
+.cl-error {
+    background-color: #CC0033 !important;
+    border-color: #CC0033 !important;
+}
+
+/* Info/Accent Colors */
+.cl-info {
+    background-color: #0066CC !important;
+    color: white !important;
+}
+
+/* Border Colors */
+.cl-border {
+    border-color: #0066CC !important;
+}
+
+/* Input Focus States */
+.cl-input:focus {
+    border-color: #0066CC !important;
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2) !important;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar-thumb {
+    background-color: #0066CC !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #0052A3 !important;
+}
+
+/* Message Bubble Colors - User */
+.cl-user-message {
+    background-color: #E6F0FF !important;
+    border-left-color: #0066CC !important;
+}
+
+/* Message Bubble Colors - Assistant */
+.cl-assistant-message {
+    background-color: #F0F4FF !important;
+    border-left-color: #0066CC !important;
+}
+
+/* Sidebar/Navigation Colors */
+.cl-sidebar {
+    background-color: #F8F9FF !important;
+}
+
+.cl-sidebar-item:hover {
+    background-color: #E6F0FF !important;
+    color: #0066CC !important;
+}
+
+.cl-sidebar-item.active {
+    background-color: #0066CC !important;
+    color: white !important;
+}
+
+/* Chat Input Area */
+.cl-chat-input {
+    border-color: #0066CC !important;
+}
+
+.cl-chat-input:focus-within {
+    border-color: #0066CC !important;
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1) !important;
+}
+
+/* Send Button */
+.cl-send-button {
+    background-color: #0066CC !important;
+    color: white !important;
+}
+
+.cl-send-button:hover {
+    background-color: #0052A3 !important;
+}
+
+/* Loaders/Spinners */
+.cl-loader {
+    color: #0066CC !important;
+}
+
+.cl-spinner {
+    border-top-color: #0066CC !important;
+}
+
+/* Tooltip Colors */
+.cl-tooltip {
+    background-color: #0066CC !important;
+    color: white !important;
+}
+
+/* Card/Container Borders */
+.cl-card {
+    border-color: #0066CC20 !important;
+}
+
+/* Link Colors */
+a {
+    color: #0066CC !important;
+}
+
+a:hover {
+    color: #0052A3 !important;
+    text-decoration: underline !important;
+}
+
+/* Code Block Accents */
+pre {
+    border-left-color: #0066CC !important;
+    background-color: #F8F9FF !important;
+}
+
+/* File Upload Zone */
+.cl-upload-zone {
+    border-color: #0066CC !important;
+    background-color: #F8F9FF !important;
+}
+
+.cl-upload-zone:hover {
+    border-color: #0052A3 !important;
+    background-color: #E6F0FF !important;
+}
+
+/* Modal/Dialog Colors */
+.cl-modal {
+    border-color: #0066CC !important;
+}
+
+.cl-modal-header {
+    background-color: #0066CC !important;
+    color: white !important;
+}
+
+/* Toggle/Switch Components */
+.cl-toggle {
+    background-color: #0066CC !important;
+}
+
+.cl-toggle:disabled {
+    background-color: #99CCFF !important;
+}
+
+/* Progress Bar */
+.cl-progress-bar {
+    background-color: #0066CC !important;
+}
+
+/* Notification Badges */
+.cl-badge {
+    background-color: #0066CC !important;
+    color: white !important;
+}
+
+/* DBS Branding - Blue Accent */
+.dbs-brand {
+    color: #0066CC !important;
+}
+
+/* DBS Primary Blue: #0066CC (DBS Brand Blue) */
+/* DBS Secondary Blue: #0052A3 (Darker for hover) */
+/* DBS Light Blue: #E6F0FF (Light background) */
+/* DBS Ultra Light Blue: #F8F9FF (Subtle background) */

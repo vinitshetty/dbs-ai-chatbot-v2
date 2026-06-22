@@ -15,6 +15,27 @@ load_dotenv(Path(PROJECT_ROOT) / ".env")
 
 import chainlit as cl
 
+# Configure custom DBS Blue Theme
+cl.set_theme(
+    name="DBS Blue Theme",
+    primary_hue="blue",
+    primary_color="#0066CC",
+    background_color="#FFFFFF",
+    secondary_background_color="#F8F9FF",
+    text_color="#1A1A1A",
+    secondary_text_color="#4A4A4A",
+    border_color="#0066CC",
+    button_primary_background="#0066CC",
+    button_primary_text="#FFFFFF",
+    button_secondary_background="#E6F0FF",
+    button_secondary_text="#0066CC",
+    accent_color="#0066CC",
+    success_color="#0066CC",
+    error_color="#CC0033",
+    info_color="#0066CC",
+    warning_color="#FF9900"
+)
+
 from llm.llm_core import LLMCore
 from rag.rag_engine import RAGEngine
 from core_banking.banking_actions import BankingActions
@@ -35,6 +56,15 @@ langwatch_tracker = None
 async def start():
     """Initialize chat session"""
     global llm_core, rag_engine, intent_router, logger, langwatch_tracker
+    
+    # Load custom theme CSS
+    try:
+        css_path = os.path.join(os.path.dirname(__file__), "custom_theme.css")
+        with open(css_path, "r") as f:
+            css_content = f.read()
+        await cl.StaticFile(path="custom_theme.css", content=css_content).send()
+    except FileNotFoundError:
+        print("Custom theme CSS not found, using default theme")
     
     # Initialize components
     logger = AuditLogger()
