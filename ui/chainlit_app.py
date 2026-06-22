@@ -308,6 +308,65 @@ async def handle_action(query: str, intent: str, user_id: str) -> str:
         else:
             return f"❌ {result.get('error') or result.get('message')}"
     
+    elif action_name == "transfer_funds":
+        # Get authentication if needed
+        if needs_auth and not cl.user_session.get("authenticated"):
+            is_auth = await request_dummy_auth()
+            langwatch_tracker.add_custom_metric("auth_required", True)
+            langwatch_tracker.add_custom_metric("auth_completed", is_auth)
+            
+            if not is_auth:
+                return "❌ Authentication required to proceed with this action."
+        
+        # Extract transfer parameters
+        params = llm_core.extract_action_params(query, "transfer")
+        from_account = params.get("from_account")
+        to_account = params.get("to_account")
+        amount = params.get("amount")
+        
+        # Validate required parameters
+        if not all([from_account, to_account, amount]):
+            missing = []
+            if not from_account:
+                missing.append("source account")
+            if not to_account:
+                missing.append("destination account")
+            if not amount:
+                missing.append("amount")
+            return f"❌ Missing required information: {', '.join(missing)}"
+        
+        # Validate amount is positive
+        if amount <= 0:
+            return "❌ Transfer amount must be greater than zero"
+        
+        # Execute transfer
+        start_exec = time.time()
+        result = BankingActions.transfer_funds(user_id, from_account, to_account, amount)
+        exec_time = (time.time() - start_exec) * 1000
+        
+        # Log action
+        logger.log_action(
+            action_name, 
+            {"from_account": from_account, "to_account": to_account, "amount": amount}, 
+            result
+        )
+        
+        # Track execution in LangWatch
+        langwatch_tracker.track_action_execution(
+            action_name,
+            {"from_account": from_account, "to_account": to_account, "amount": amount},
+            result,
+            execution_time_ms=exec_time
+        )
+        
+        # Return formatted response
+        if result["success"]:
+            return (f"✅ {result['message']}\n"
+                    f"Transaction ID: **{result['transaction_id']}**\n"
+                    f"New {from_account} balance: **${result['new_balance']:.2f}**")
+        else:
+            return f"❌ {result.get('error') or result.get('message')}"
+    
     return f"Action '{action_name}' is not yet implemented in this prototype."
 
 async def request_dummy_auth() -> bool:
