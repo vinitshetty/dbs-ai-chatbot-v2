@@ -1,0 +1,114 @@
+# .chainlit/config.yaml
+# DBS Bank Blue Theme Configuration
+
+ui:
+  name: "DBS Banking Assistant"
+  description: "DBS Retail Banking RAG + Action Agent"
+ 
+theme:
+  primary:
+    # DBS Bank's primary blue color
+    color: "#003885"
+    
+  secondary:
+    # DBS Bank's secondary blue color
+    color: "#0069B4"
+    
+  text:
+    primary: "#1a1a1a"
+    secondary: "#666666"
+    
+  background:
+    primary: "#ffffff"
+    secondary: "#f5f7fa"
+    
+  accent:
+    # Button and interactive element colors
+    primary: "#003885"
+    secondary: "#0069B4"
+    hover: "#0045a0"
+    
+  border:
+    color: "#e0e0e0"
+    
+  shadow:
+    color: "rgba(0, 56, 133, 0.1)"
+
+features:
+  # Enable custom theme
+  theme: "light"
+  
+  # Custom CSS injection
+  custom_css: |
+    /* DBS Bank Brand Colors */
+    :root {
+      --primary-blue: #003885;
+      --secondary-blue: #0069B4;
+      --accent-blue: #0045a0;
+      --light-blue: #e6f0ff;
+    }
+    
+    /* Override Chainlit's default red theme elements */
+    .cl-message {
+      border-left: 4px solid var(--primary-blue) !important;
+    }
+    
+    .cl-message.user {
+      background: linear-gradient(135deg, var(--light-blue) 0%, #f0f5ff 100%);
+      border-left-color: var(--primary-blue) !important;
+    }
+    
+    .cl-button {
+      background: var(--primary-blue) !important;
+      color: white !important;
+      border-color: var(--primary-blue) !important;
+    }
+    
+    .cl-button:hover {
+      background: var(--accent-blue) !important;
+      border-color: var(--accent-blue) !important;
+    }
+    
+    .cl-text-input {
+      border-color: var(--primary-blue) !important;
+    }
+    
+    .cl-text-input:focus {
+      border-color: var(--primary-blue) !important;
+      box-shadow: 0 0 0 3px rgba(0, 56, 133, 0.1) !important;
+    }
+    
+    /* Send button styling */
+    .cl-send-button {
+      background: var(--primary-blue) !important;
+      color: white !important;
+    }
+    
+    .cl-send-button:hover {
+      background: var(--accent-blue) !important;
+    }
+    
+    /* Header styling */
+    .cl-header {
+      border-bottom: 2px solid var(--primary-blue) !important;
+    }
+    
+    /* Sidebar styling */
+    .cl-sidebar {
+      background: linear-gradient(180deg, var(--primary-blue) 0%, var(--secondary-blue) 100%) !important;
+    }
+    
+    /* Link colors */
+    a {
+      color: var(--primary-blue) !important;
+    }
+    
+    /* Success state - change from green to blue */
+    .cl-message:has(.cl-success) {
+      border-left-color: var(--primary-blue) !important;
+    }
+    
+    /* Error state - change from red to blue-red or keep red for errors */
+    .cl-message:has(.cl-error) {
+      border-left-color: #d32f2f !important;
+    }

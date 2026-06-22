@@ -1,14 +1,59 @@
-# Welcome to Chainlit! 🚀🤖
+# DBS Banking Assistant 🏦
 
-Hi there, Developer! 👋 We're excited to have you on board. Chainlit is a powerful tool designed to help you prototype, debug and share applications built on top of LLMs.
+Welcome to DBS Bank's AI Assistant
 
-## Useful Links 🔗
+## Features
 
-- **Documentation:** Get started with our comprehensive [Chainlit Documentation](https://docs.chainlit.io) 📚
-- **Discord Community:** Join our friendly [Chainlit Discord](https://discord.gg/k73SQ3FyUh) to ask questions, share your projects, and connect with other developers! 💬
+- ✅ **Branch Information** - Hours, fees, locations
+- 💳 **Card Management** - Lock/unlock your cards instantly
+- 💰 **Account Balance** - Check your account balances
+- 🔄 **Fund Transfers** - Transfer between accounts
 
-We can't wait to see what you create with Chainlit! Happy coding! 💻😊
+## Security
 
-## Welcome screen
+- 🔒 Prompt injection protection
+- 🛡️ Content moderation
+- 📊 LangWatch observability
 
-To modify the welcome screen, edit the `chainlit.md` file at the root of your project. If you do not want a welcome screen, just leave this file empty.
+## DBS Bank
+
+Your trusted banking partner
+
+---
+
+<style>
+  .welcome-container {
+    background: linear-gradient(135deg, #e6f0ff 0%, #f0f5ff 100%);
+    padding: 2rem;
+    border-radius: 12px;
+    border-left: 4px solid #003885;
+  }
+  
+  .welcome-container h1 {
+    color: #003885;
+    font-size: 2.5rem;
+  }
+  
+  .welcome-container h2 {
+    color: #003885;
+    border-bottom: 2px solid #0069B4;
+    padding-bottom: 0.5rem;
+  }
+  
+  .welcome-container ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .welcome-container li {
+    padding: 0.5rem 0;
+    color: #333;
+  }
+  
+  .welcome-container li::before {
+    content: "✓ ";
+    color: #003885;
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }
+</style>
