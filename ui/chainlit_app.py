@@ -24,6 +24,44 @@ from audit.logger import AuditLogger
 from audit.langwatch_tracker import LangWatchTracker
 import time
 
+# Theme configuration for DBS Bank branding
+@cl.set_config
+async def setup_theme():
+    """Configure DBS Bank blue theme"""
+    return cl.ChatSettings(
+        # Theme colors
+        primary_color="#003885",
+        secondary_color="#0069B4",
+        text_color="#1a1a1a",
+        background_color="#ffffff",
+        
+        # UI settings
+        title="DBS Banking Assistant",
+        description="Your DBS Retail Banking AI Assistant",
+        
+        # Custom CSS for additional styling
+        custom_css="""
+        :root {
+            --dbs-primary: #003885;
+            --dbs-secondary: #0069B4;
+            --dbs-light: #e6f0ff;
+        }
+        
+        .cl-message.user {
+            background: linear-gradient(135deg, var(--dbs-light) 0%, #f0f5ff 100%);
+        }
+        
+        .cl-button {
+            background: var(--dbs-primary) !important;
+            color: white !important;
+        }
+        
+        .cl-button:hover {
+            background: var(--dbs-secondary) !important;
+        }
+        """
+    )
+
 # Initialize components
 llm_core = None
 rag_engine = None
