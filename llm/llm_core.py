@@ -84,7 +84,8 @@ Example: faq|0.9"""
         
         prompts = {
             "lock_card": "Extract the last 4 digits of the card from: {query}\nRespond with ONLY the 4 digits or 'unknown'",
-            "transfer": "Extract from_account, to_account, and amount from: {query}\nFormat: from|to|amount or 'unknown'"
+            "transfer": "Extract from_account, to_account, and amount from: {query}\nFormat: from|to|amount or 'unknown'",
+            "transaction_history": "Extract filters from: {query}\nPossible filters: type (credit/debit), date range, amount range, limit\nFormat: type|start_date|end_date|min_amount|max_amount|limit or 'none'"
         }
         
         if action_type not in prompts:
@@ -108,6 +109,34 @@ Example: faq|0.9"""
                         "amount": float(parts[2].strip())
                     }
         
+        elif action_type == "transaction_history":
+            if result != "unknown" and result != "none":
+                parts = result.split("|")
+                # Parse up to 6 parts
+                params = {}
+                if len(parts) >= 1 and parts[0].strip():
+                    params["type"] = parts[0].strip()
+                if len(parts) >= 2 and parts[1].strip():
+                    params["start_date"] = parts[1].strip()
+                if len(parts) >= 3 and parts[2].strip():
+                    params["end_date"] = parts[2].strip()
+                if len(parts) >= 4 and parts[3].strip():
+                    try:
+                        params["min_amount"] = float(parts[3].strip())
+                    except ValueError:
+                        pass
+                if len(parts) >= 5 and parts[4].strip():
+                    try:
+                        params["max_amount"] = float(parts[4].strip())
+                    except ValueError:
+                        pass
+                if len(parts) >= 6 and parts[5].strip():
+                    try:
+                        params["limit"] = int(parts[5].strip())
+                    except ValueError:
+                        pass
+                return params
+        
         return {}
     
     def plan_action(self, query: str, intent: str) -> dict:
@@ -119,7 +148,7 @@ Query: {query}
 Intent: {intent}
 
 Determine:
-1. Action name (lock_card, unlock_card, check_balance, transfer_funds)
+1. Action name (lock_card, unlock_card, check_balance, transfer_funds, transaction_history)
 2. Required parameters
 3. Needs authentication? (yes/no)
 

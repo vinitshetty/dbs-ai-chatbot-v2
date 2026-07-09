@@ -52,6 +52,7 @@ async def start():
         content="👋 Welcome to DBS Banking Assistant!\n\nI can help you with:\n"
                 "- Branch hours and fees\n"
                 "- Checking your balance\n"
+                "- Viewing transaction history\n"
                 "- Locking/unlocking cards\n"
                 "- Transferring funds\n\n"
                 "How can I assist you today?"
@@ -169,7 +170,30 @@ async def main(message: cl.Message):
     history.append({"role": "assistant", "content": response})
     cl.user_session.set("conversation_history", history[-6:])  # Keep last 3 turns
     
-    await cl.Message(content=response).send()
+    # Check if there's a PDF to attach (for transaction history)
+    pdf_path = cl.user_session.get("transaction_pdf_path")
+    if pdf_path and os.path.exists(pdf_path):
+        # Send message with PDF as a downloadable file
+        with open(pdf_path, "rb") as f:
+            await cl.Message(
+                content=response,
+                elements=[
+                    cl.File(
+                        content=f.read(),
+                        name=os.path.basename(pdf_path),
+                        display="inline"
+                    )
+                ]
+            ).send()
+        # Clean up the PDF file
+        try:
+            os.remove(pdf_path)
+        except:
+            pass
+        # Clear the session variable
+        cl.user_session.set("transaction_pdf_path", None)
+    else:
+        await cl.Message(content=response).send()
 
 async def handle_query(query: str, intent: str, user_id: str, history: list) -> str:
     """Handle query based on intent"""
@@ -185,6 +209,7 @@ async def handle_query(query: str, intent: str, user_id: str, history: list) -> 
                 "Could you please rephrase? You can ask about:\n"
                 "- Branch hours, fees, policies\n"
                 "- Account balances\n"
+                "- Transaction history\n"
                 "- Card management")
 
 async def handle_faq(query: str, history: list) -> str:
@@ -305,6 +330,77 @@ async def handle_action(query: str, intent: str, user_id: str) -> str:
         
         if result["success"]:
             return f"✅ {result['message']}"
+        else:
+            return f"❌ {result.get('error') or result.get('message')}"
+    
+    elif action_name == "transaction_history":
+        # Extract parameters
+        params = llm_core.extract_action_params(query, "transaction_history")
+        
+        # Get filter parameters
+        txn_type = params.get("type")
+        start_date = params.get("start_date")
+        end_date = params.get("end_date")
+        min_amount = params.get("min_amount")
+        max_amount = params.get("max_amount")
+        limit = params.get("limit", 10)
+        
+        # Parse relative dates if present
+        if start_date:
+            start_date = BankingActions._parse_date(start_date)
+        if end_date:
+            end_date = BankingActions._parse_date(end_date)
+        
+        # Execute action
+        start_exec = time.time()
+        result = BankingActions.get_transactions(
+            user_id,
+            transaction_type=txn_type,
+            start_date=start_date,
+            end_date=end_date,
+            min_amount=min_amount,
+            max_amount=max_amount,
+            limit=limit
+        )
+        exec_time = (time.time() - start_exec) * 1000
+        
+        logger.log_action("transaction_history", params, result)
+        langwatch_tracker.track_action_execution(
+            "transaction_history",
+            params,
+            result,
+            execution_time_ms=exec_time
+        )
+        
+        if result["success"]:
+            transactions = result.get("transactions", [])
+            if not transactions:
+                return "No transactions found matching your criteria."
+            
+            # Generate PDF for download
+            pdf_path = BankingActions.generate_transaction_pdf(user_id, transactions)
+            
+            # Format as table with PDF download option at the top
+            response = "📋 **Transaction History**\n\n"
+            response += "📥 **Download as PDF** 📄\n\n"
+            response += f"Showing {result.get('returned_count', len(transactions))} of {result.get('total_count', len(transactions))} transactions\n\n"
+            
+            response += "| Date | Type | Description | Amount | Balance |\n"
+            response += "|------|------|-------------|--------|---------|\n"
+            
+            for txn in transactions:
+                txn_date = txn.get("date", "N/A")
+                txn_type = txn.get("type", "N/A").upper()
+                description = txn.get("description", "N/A")
+                amount = f"${txn.get('amount', 0):.2f}"
+                balance = f"${txn.get('balance', 0):.2f}"
+                
+                response += f"| {txn_date} | {txn_type} | {description} | {amount} | {balance} |\n"
+            
+            # Store PDF path in session for potential future use
+            cl.user_session.set("transaction_pdf_path", pdf_path)
+            
+            return response
         else:
             return f"❌ {result.get('error') or result.get('message')}"
     
