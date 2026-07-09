@@ -7,3 +7,4 @@ python-dotenv
 langwatch
 mistralai
 python-dateutil>=2.8.0
+fpdf2>=2.7.0

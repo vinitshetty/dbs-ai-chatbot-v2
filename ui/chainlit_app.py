@@ -170,7 +170,30 @@ async def main(message: cl.Message):
     history.append({"role": "assistant", "content": response})
     cl.user_session.set("conversation_history", history[-6:])  # Keep last 3 turns
     
-    await cl.Message(content=response).send()
+    # Check if there's a PDF to attach (for transaction history)
+    pdf_path = cl.user_session.get("transaction_pdf_path")
+    if pdf_path and os.path.exists(pdf_path):
+        # Send message with PDF as a downloadable file
+        with open(pdf_path, "rb") as f:
+            await cl.Message(
+                content=response,
+                elements=[
+                    cl.File(
+                        content=f.read(),
+                        name=os.path.basename(pdf_path),
+                        display="inline"
+                    )
+                ]
+            ).send()
+        # Clean up the PDF file
+        try:
+            os.remove(pdf_path)
+        except:
+            pass
+        # Clear the session variable
+        cl.user_session.set("transaction_pdf_path", None)
+    else:
+        await cl.Message(content=response).send()
 
 async def handle_query(query: str, intent: str, user_id: str, history: list) -> str:
     """Handle query based on intent"""
@@ -354,8 +377,12 @@ async def handle_action(query: str, intent: str, user_id: str) -> str:
             if not transactions:
                 return "No transactions found matching your criteria."
             
-            # Format as table
+            # Generate PDF for download
+            pdf_path = BankingActions.generate_transaction_pdf(user_id, transactions)
+            
+            # Format as table with PDF download option at the top
             response = "📋 **Transaction History**\n\n"
+            response += "📥 **Download as PDF** 📄\n\n"
             response += f"Showing {result.get('returned_count', len(transactions))} of {result.get('total_count', len(transactions))} transactions\n\n"
             
             response += "| Date | Type | Description | Amount | Balance |\n"
@@ -369,6 +396,9 @@ async def handle_action(query: str, intent: str, user_id: str) -> str:
                 balance = f"${txn.get('balance', 0):.2f}"
                 
                 response += f"| {txn_date} | {txn_type} | {description} | {amount} | {balance} |\n"
+            
+            # Store PDF path in session for potential future use
+            cl.user_session.set("transaction_pdf_path", pdf_path)
             
             return response
         else:

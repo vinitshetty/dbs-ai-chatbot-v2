@@ -3,7 +3,10 @@
 from typing import Dict, Any, List
 import random
 import datetime
+import tempfile
+import os
 from dateutil.relativedelta import relativedelta
+from fpdf import FPDF
 
 class BankingActions:
     """Dummy banking actions for prototype"""
@@ -220,6 +223,82 @@ class BankingActions:
             "total_count": len(filtered),
             "returned_count": len(result_transactions)
         }
+
+    @classmethod
+    def generate_transaction_pdf(cls, user_id: str, transactions: List[Dict[str, Any]], 
+                                  filename: str = None) -> str:
+        """
+        Generate a PDF file from transaction data.
+        
+        Args:
+            user_id: User identifier
+            transactions: List of transaction dictionaries
+            filename: Optional custom filename (without extension)
+            
+        Returns:
+            Path to the generated PDF file
+        """
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial", "B", 16)
+        
+        # Title
+        pdf.cell(0, 10, "DBS Bank - Transaction History", ln=True, align="C")
+        pdf.set_font("Arial", size=12)
+        pdf.cell(0, 10, f"User ID: {user_id}", ln=True, align="C")
+        pdf.cell(0, 10, f"Generated: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ln=True, align="C")
+        pdf.ln(10)
+        
+        # Table headers
+        pdf.set_font("Arial", "B", 10)
+        pdf.set_fill_color(200, 220, 255)
+        
+        # Header row
+        pdf.cell(30, 10, "Date", border=1, fill=True)
+        pdf.cell(25, 10, "Type", border=1, fill=True)
+        pdf.cell(70, 10, "Description", border=1, fill=True)
+        pdf.cell(30, 10, "Amount", border=1, fill=True)
+        pdf.cell(30, 10, "Balance", border=1, fill=True)
+        pdf.ln(10)
+        
+        # Table rows
+        pdf.set_font("Arial", size=10)
+        pdf.set_fill_color(255, 255, 255)
+        
+        for txn in transactions:
+            txn_date = txn.get("date", "N/A")
+            txn_type = txn.get("type", "N/A").upper()
+            description = txn.get("description", "N/A")
+            amount = f"${txn.get('amount', 0):.2f}"
+            balance = f"${txn.get('balance', 0):.2f}"
+            
+            pdf.cell(30, 10, txn_date, border=1)
+            pdf.cell(25, 10, txn_type, border=1)
+            pdf.cell(70, 10, description, border=1)
+            pdf.cell(30, 10, amount, border=1)
+            pdf.cell(30, 10, balance, border=1)
+            pdf.ln(10)
+        
+        # Summary
+        pdf.ln(5)
+        pdf.set_font("Arial", "B", 10)
+        pdf.cell(0, 10, f"Total Transactions: {len(transactions)}", ln=True)
+        
+        # Calculate totals
+        total_credit = sum(txn.get("amount", 0) for txn in transactions if txn.get("type") == "credit")
+        total_debit = sum(txn.get("amount", 0) for txn in transactions if txn.get("type") == "debit")
+        pdf.cell(0, 10, f"Total Credits: ${total_credit:.2f}", ln=True)
+        pdf.cell(0, 10, f"Total Debits: ${total_debit:.2f}", ln=True)
+        
+        # Save to temporary file
+        if not filename:
+            filename = f"transaction_history_{user_id}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        
+        temp_dir = tempfile.gettempdir()
+        filepath = os.path.join(temp_dir, f"{filename}.pdf")
+        pdf.output(filepath)
+        
+        return filepath
 
     @staticmethod
     def _parse_date(date_str: str) -> str:
